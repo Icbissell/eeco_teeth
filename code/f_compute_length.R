@@ -5,7 +5,7 @@ library(plyr)
 library(zoo)
 
 #set code directory
-setwd("/Users/icbissell/Documents/research/Eocene_teeth/final_code/f_compute_length")
+setwd("final_code/f_compute_length")
 #set path to morphotypes dataset
 total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
 #set path to Westerhold oxygen data
@@ -17,14 +17,14 @@ cut_to <- function(lengthID, total_data) {
   #create shorter object ID to match between datasets
   objID <- lengthID$ObjectID[1]
   objId_cut <- sub("^(([^_]*_){5}[^_]*).*", "\\1", objID)
-  
+
   #Shorten large dataset to only those with object id
   match_id <- total_data[grepl(objId_cut, total_data$Sample.ID, fixed = TRUE), ]
   match_id <- match_id[match_id$Tooth.Dent == "1", ]
-  
+
   teeth <- data.frame(lengthID)
   teeth <- teeth[0, ]
-  
+
   #match lengths with tooth IDs
   for(i in 1:length(match_id$Object)){
     if("TRUE" %in% str_detect(lengthID$ObjectID, match_id$Object[i])) {
@@ -140,11 +140,11 @@ teeth_total <- merge(age, teeth_total, by.y = "SampleID", by.x = "SampleID")
 teeth_total$length <- pmax(teeth_total$Height, teeth_total$Width)
 
 #write teeth total to csv
-write.csv(teeth_total, "data/teeth_total.csv")
+write.csv(teeth_total, "data/teeth_total.csv") ##Elizabeth comment: Make row.names = false in this writeCSV
 
 length_means <- aggregate(teeth_total$length, list(teeth_total$Age), FUN = mean)
 colnames(length_means)[1] = "age"
 colnames(length_means)[2] = "length"
 
 #write teeth total to csv
-write.csv(length_means, "data/length_means.csv")
+write.csv(length_means, "data/length_means.csv") #also make row.names = FALSE here

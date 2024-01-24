@@ -1,9 +1,6 @@
 library(zoo)
 library(mgcv)
 
-#set code directory
-setwd("/Users/icbissell/Documents/research/Eocene_teeth/final_code/f_scatter")
-
 #set path to Westerhold oxygen data
 o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
 #set path to IAR data
@@ -32,11 +29,11 @@ for(i in 1:length(iar$age)) {
   if (ind == 1) {
     match_d18O[i] <- o_roll$d18O[ind]
   }
-  
+
   else{
   match_d18O[i] <- mean(o_roll$d18O[(ind-2):(ind+2)])
   }
-  
+
 }
 
 d18O_IAR <- data.frame(age = iar$age, d18O = match_d18O, IAR = iar$IAR)
@@ -89,7 +86,7 @@ summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
 ########################################################################
 
 par(mfrow = c(1, 2))
-par(mar = c(5, 4, 4, 2)) 
+par(mar = c(5, 4, 4, 2))
 model <-lm(log(IAR)~d18O, d18O_IAR)
 newx <- seq(min(d18O_IAR$d18O), max(d18O_IAR$d18O), by = 0.01)
 new_data <- data.frame(d18O = newx)
@@ -133,7 +130,7 @@ upper <- y_pred + ci
 cf2 <- coef(model.2)
 slope.2 <- round(cf2[2], 4)
 
-plot(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O, xlim = rev(range(d18O_IAR_596$d18O)), 
+plot(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O, xlim = rev(range(d18O_IAR_596$d18O)),
      pch = 16, xlab = '', ylab = '')
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
@@ -166,7 +163,7 @@ d18O_IAR_596 <- d18O_IAR_596[order(d18O_IAR_596$age), ]
 scale.596 <- data.frame(Age = d18O_IAR_596$age, scale.iar = d18O_IAR_596$IAR, d18O = d18O_IAR_596$d18O)
 for(i in 1:length(scale.596$Age)) {
   scale.596$scale.iar[i] <- (
-    scale.596$scale.iar[i] / 
+    scale.596$scale.iar[i] /
     scale.vec$fac[which(abs(scale.vec$Age-scale.596$Age[i])==min(abs(scale.vec$Age-scale.596$Age[i])))]
   )
 }
@@ -233,3 +230,4 @@ pval <- pval[2]
 text(0.4, 9.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
 text(0.4, 9.55, bquote(paste('P = ', .(pval))), cex = 0.8)
 text(0.4, 9.35, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+
