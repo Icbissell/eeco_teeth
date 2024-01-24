@@ -4,6 +4,11 @@ library(ggplot2)
 library(plyr)
 library(zoo)
 
+<<<<<<< HEAD
+=======
+#set code directory
+setwd("final_code/f_compute_length")
+>>>>>>> d4d4d9f6dd43ad3d861c552bcc618e7fbdc4e031
 #set path to morphotypes dataset
 total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
 #set path to Westerhold oxygen data

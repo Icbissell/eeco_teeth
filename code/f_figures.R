@@ -5,6 +5,11 @@ library(egg)
 library(mgcv)
 library(ggplot2)
 
+<<<<<<< HEAD
+=======
+setwd("../f_figures")
+
+>>>>>>> d4d4d9f6dd43ad3d861c552bcc618e7fbdc4e031
 #dev.off()
 
 
