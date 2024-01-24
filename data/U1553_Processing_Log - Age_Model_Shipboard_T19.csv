@@ -1,0 +1,33 @@
+"Age Model Option 1: Shipboard Table T19. Primary datum tie points and linear sedimentation rates, Site U1553.",,,,,,,,,,,,,,
+https://doi.org/10.14379/iodp.proc.378.103.2022,,,,,,,,,,,,,,
+,,,,csf -A ,,,ccsf-A,,,,,,,
+Datum tie points (Datum),Age (Ma),Sample interval,,Depth (mbsf),,,Depth (mcd),,,Interval between tie-points,,LSR (cm/ky),MAR,NOTES
+Datum tie points (Datum),Age (Ma),Top,Bottom,Top_csf-a,Base_csf-a,Midpoint_csf-a,Top_ccsf-a,Base_ccsf-a,Midpoint_ccsf-a,Top (mbsf),Base (mbsf),,G/cm2/ky,
+top of core,0,0,0,0,0,0,0,0,0,0,0,,,
+Unconformity,26,,,0,12.98,5,0,12.68,5,0,0,,,
+T Globigerina labiacrassata,26.5,"U1553A-2H-CC, 14","U1553A-3H-CC, 14",12.98,22.14,17.56,12.68,22.28,17.48,5,17.56,2.51,2.55,
+TC Chiloguembelina cubensis,28.1,"U1553A-5H-CC, 13","U1553A-6H-CC, 13",40.68,50.34,45.51,42.07,53.19,47.63,17.56,45.51,1.75,1.72,
+T Subbotina angiporoides,29.8,"U1553A-9H-CC, 13","U1553A-10H-CC, 17",79.02,88.88,83.95,82.88,92.77,87.82,45.51,83.95,2.26,2.34,
+TC Reticulofenestra umbilicus (>14 µm),31.51,"U1553A-18H-1, 100","U1553A-18H-2, 100",139.3,140.81,140.06,149.06,150.57,149.81,83.95,140.06,3.28,3.58,
+T Isthmolithus recurvus,32.49,"U1553A-19H-5, 80","U1553A-19H-6, 80",154.6,156.11,155.36,166,167.51,166.75,140.06,155.36,1.56,1.78,
+B Chiamolithus altus,33.31,"U1553A-22F-2, 100","U1553A-22F-3, 100",174.01,175.51,174.76,187.01,188.51,187.76,155.36,174.76,2.37,2.75,
+T Reticulofenestra oamaruensis,33.97,"U1553A-24X-2, 80","U1553A-24X-3, 80",181.7,183.2,182.45,196.53,198.03,197.28,174.76,182.45,1.17,1.4,
+B Reticulofenestra oamaruensis,35.54,"U1553A-26X-1, 20","U1553A-26X-2, 20",199,200.5,199.75,217,218.5,217.75,182.45,199.75,1.1,1.35,
+T Reticulofenestra reticulata,35.92,"U1553A-26X-CC, 46","U1553A-27X-1, 46",203.97,209.06,206.52,221.97,229.02,225.49,199.75,206.52,1.78,2.13,
+B Eucyrtidium spinosum,38.15,"U1553C-3R-CC, 8","U1553-4R-CC, 8",245.79,255.64,250.72,277.13,286.98,282.06,206.52,250.72,1.98,2.68,
+T Acarinina primitiva,39.1,"U1553C-5R-CC, 11","U1553C-6R-CC, 3",265.74,277.77,271.75,297.08,309.11,303.09,250.72,271.75,2.21,3.02,
+B Reticulofenestra reticulata,40.69,"U1553C-10R-1, 30","U1553C-10R-1, 100",297.9,298.6,298.25,329.24,329.94,329.59,271.75,298.25,1.67,2.23,
+B Reticulofenestra umbilicus,42.48,"U1553C-17R-5, 60","U1553C-17R-CC, 6",337.87,338.52,338.19,369.21,369.86,369.53,298.25,338.19,2.23,3.18,
+T Cassigerinelloita amekiensis,46.13,"U1553C-20R-CC, 2","U1553C-21R-CC, 13",355.54,364.52,360.03,386.88,395.86,391.37,338.19,360.03,0.6,0.84,
+T Discoaster lodoensis,47.41,"U1553C-22R-2, 60","U1553C-22R-CC, 8",372.31,374.37,373.34,403.65,405.71,404.68,360.03,373.34,1.04,1.47,
+B Discoaster sublodoensis (5-rayed),49.11,"U1553C-22R-CC, 8","U1553C-23R-1, 60",374.37,380.5,377.44,405.71,411.84,408.77,373.34,377.44,0.24,0.34,removed for updated Niederbockstruck et al age model splice
+T Tribrachiatus orthostylus,50.5,"U1553C-25R-CC, 8","U1553C-26R-CC, 10",403.9,412.37,408.14,435.52,444.08,439.8,377.44,408.14,2.21,3.18,removed for updated Niederbockstruck et al age model splice
+B Acarinina primitiva,51.43,"U1553C-27R-CC, 13","U1553C-28R-CC, 7",421.61,437.43,429.52,452.95,468.26,460.6,408.14,429.52,2.3,4.03,removed for updated Niederbockstruck et al age model splice
+B Sphenolithus radians,54.17,"U1553C-28R-3, 70","U1553C-28R-4, 84",432.27,433.92,433.09,463.1,464.75,463.92,429.52,433.09,0.13,0.23,removed for updated Niederbockstruck et al age model splice
+B Tribrachiatus orthostylus,54.37,"U1553C-28R-5, 36","U1553C-28R-6, 84",434.95,436.85,435.9,465.78,467.68,466.73,433.09,435.9,1.4,2.42,removed for updated Niederbockstruck et al age model splice
+T Fasciculithus tympaniformis,55.33,"U1553C-29R-2, 52","U1553C-29R-3, 42",440.33,441.64,440.98,470.83,472.14,471.48,435.9,440.98,0.53,0.92,removed for updated Niederbockstruck et al age model splice
+B Discoaster multiradiatus,57.2,"U1553C-31R-CC, 1","U1553C-32R-CC, 13",448.01,457.98,453,480.68,490.85,485.76,440.98,453,0.64,1.15,removed for updated Niederbockstruck et al age model splice
+B Fasciculithus tympaniformis,61.51,"U1553D-9R-1, 68","U1553D-9R-2, 93",468.18,469.92,469.05,500.81,502.55,501.68,453,469.05,0.37,0.57,
+B Palaeoperidinium pyrophorum,62.5,U1553D-10R-CC,U1553D-11R-CC,478.14,488.11,483.13,510.77,520.74,515.76,469.05,483.13,1.42,2.04,
+T Senoniasphaera inornata,63.4,U1553D-14R-CC,U1553D-15R-CC,517.59,528.57,523.08,550.22,561.2,555.71,483.13,523.08,4.44,5.85,
+B Trithyrodinium evittii,64,U1553D-17R-CC,U1553D-18R-CC,553.79,564.74,559.27,586.42,600.93,593.68,523.08,559.27,6.03,8.51,

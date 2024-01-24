@@ -1,40 +1,47 @@
+##### Libraries #####
+
 library(stringr)
 library(car)
 library(ggplot2)
 library(plyr)
 library(zoo)
 
-#set path to morphotypes dataset
-total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
-#set path to Westerhold oxygen data
-o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
+##### Functions #####
 
-
-#define function to cut matrix to right size
+# define function to cut tooth length matrix to right size
 cut_to <- function(lengthID, total_data) {
-  #create shorter object ID to match between datasets
-  objID <- lengthID$ObjectID[1]
-  objId_cut <- sub("^(([^_]*_){5}[^_]*).*", "\\1", objID)
+   #create shorter object ID to match between datasets
+   objID <- lengthID$ObjectID[1]
+   objId_cut <- sub("^(([^_]*_){5}[^_]*).*", "\\1", objID)
 
-  #Shorten large dataset to only those with object id
-  match_id <- total_data[grepl(objId_cut, total_data$Sample.ID, fixed = TRUE), ]
-  match_id <- match_id[match_id$Tooth.Dent == "1", ]
+   #Shorten large dataset to only those with object id
+   match_id <- total_data[grepl(objId_cut, total_data$Sample.ID, fixed = TRUE), ]
+   match_id <- match_id[match_id$Tooth.Dent == "1", ]
 
-  teeth <- data.frame(lengthID)
-  teeth <- teeth[0, ]
+   teeth <- data.frame(lengthID)
+   teeth <- teeth[0, ]
 
-  #match lengths with tooth IDs
-  for(i in 1:length(match_id$Object)){
-    if("TRUE" %in% str_detect(lengthID$ObjectID, match_id$Object[i])) {
-      index <- lengthID$ObjectID[str_detect(lengthID$ObjectID, match_id$Object[i])]
-      teeth[nrow(teeth) + 1, ] = lengthID[which(lengthID$ObjectID == index), ]
-    }
-  }
-  return(teeth)
+   #match lengths with tooth IDs
+   for(i in 1:length(match_id$Object)){
+      if("TRUE" %in% str_detect(lengthID$ObjectID, match_id$Object[i])) {
+         index <- lengthID$ObjectID[str_detect(lengthID$ObjectID, match_id$Object[i])]
+         teeth[nrow(teeth) + 1, ] = lengthID[which(lengthID$ObjectID == index), ]
+      }
+   }
+   return(teeth)
 }
 
 
-#prepare datasets
+##### Dataset Processing #####
+
+# Morphotypes occurrence dataset
+total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
+
+# Westerhold oxygen data
+o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
+
+### Tooth length datasets ##
+## Call in datasets
 length_93 <- read.csv("data/93_morph2d_properties.csv")
 length_95 <- read.csv("data/95_morph2d_properties.csv")
 length_97 <- read.csv("data/97_morph2d_properties.csv")
@@ -64,6 +71,7 @@ length_135 <- read.csv("data/135_morph2d_properties.csv")
 length_139 <- read.csv("data/139_morph2d_properties.csv")
 length_143 <- read.csv("data/143_morph2d_properties.csv")
 
+## Process tooth length datasets to only contain teeth that are ID'd in the morphotypes dataset
 teeth_93 <- cut_to(length_93, total_data)
 teeth_95 <- cut_to(length_95, total_data)
 teeth_97 <- cut_to(length_97, total_data)
@@ -81,9 +89,8 @@ teeth_115_2 <- cut_to(length_115_2, total_data)
 teeth_117 <- cut_to(length_117, total_data)
 teeth_119 <- cut_to(length_119, total_data)
 
-#remove one problematic tooth#
+# remove one problematic tooth from sample #119 #
 teeth_119 <- teeth_119[-which(teeth_119$ObjectID == "119_U1553D_4R_4W_20-23cm_N1of1_Z200x_obj00615_plane000"), ]
-##############################
 
 teeth_121_1 <- cut_to(length_121_1, total_data)
 teeth_121_2 <- cut_to(length_121_2, total_data)
@@ -98,7 +105,7 @@ teeth_135 <- cut_to(length_135, total_data)
 teeth_139 <- cut_to(length_139, total_data)
 teeth_143 <- cut_to(length_143, total_data)
 
-#combine multi-hole sections
+## combine multi-hole sections
 teeth_101 <- rbind(teeth_101_1, teeth_101_2)
 teeth_101["SampleID"] <- "101"
 rm(teeth_101_1, teeth_101_2)
@@ -119,7 +126,7 @@ teeth_133 <- rbind(teeth_133_1, teeth_133_2)
 teeth_133["SampleID"] <- "130"
 rm(teeth_133_1, teeth_133_2)
 
-#combine all dfs into big frame
+## combine all dfs into big frame
 teeth_list <- mget(ls(pattern = "^teeth_*"))
 teeth_total <- rbind.fill(teeth_list)
 

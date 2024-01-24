@@ -1,0 +1,44 @@
+Age model Option 2 - Niederbockstruck et al age model spliced with shipboard age model,,,,,,,
+FINAL AGE DEPTH with T19 ,,,,,,,
+,,,,,,,
+Event,Sample ID,mid_csf-a,mid_ccsf-a,Age Ma,Reference Site,Age Source,Age Model
+,,0,0,0,,,
+Unconformity,,5,5,26,,,Shipboard age model
+T Globigerina labiacrassata,"U1553A-2H-CC, 14",17.56,17.48,26.5,,,Shipboard age model
+TC Chiloguembelina cubensis,"U1553A-5H-CC, 13",45.51,47.63,28.1,,,Shipboard age model
+T Subbotina angiporoides,"U1553A-9H-CC, 13",83.95,87.82,29.8,,,Shipboard age model
+TC Reticulofenestra umbilicus (>14 µm),"U1553A-18H-1, 100",140.06,149.81,31.51,,,Shipboard age model
+T Isthmolithus recurvus,"U1553A-19H-5, 80",155.36,166.75,32.49,,,Shipboard age model
+B Chiamolithus altus,"U1553A-22F-2, 100",174.76,187.76,33.31,,,Shipboard age model
+T Reticulofenestra oamaruensis,"U1553A-24X-2, 80",182.45,197.28,33.97,,,Shipboard age model
+B Reticulofenestra oamaruensis,"U1553A-26X-1, 20",199.75,217.75,35.54,,,Shipboard age model
+T Reticulofenestra reticulata,"U1553A-26X-CC, 46",206.52,225.49,35.92,,,Shipboard age model
+B Eucyrtidium spinosum,"U1553C-3R-CC, 8",250.72,282.06,38.15,,,Shipboard age model
+T Acarinina primitiva,"U1553C-5R-CC, 11",271.75,303.09,39.1,,,Shipboard age model
+B Reticulofenestra reticulata,"U1553C-10R-1, 30",298.25,329.59,40.69,,,Shipboard age model
+B Reticulofenestra umbilicus,"U1553C-17R-5, 60",338.19,369.53,42.48,,,Shipboard age model
+T Cassigerinelloita amekiensis,"U1553C-20R-CC, 2",360.03,391.37,46.13,,,Shipboard age model
+T Discoaster lodoensis,"U1553C-22R-2, 60",373.34,404.68,47.41,,,Shipboard age model
+Hyp S,"378-U1553C-26R-1,40-41 cm",409.505,440.845,50.485,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+δ13C corr,"378-U1553D-3R-2,60-61 cm",411.205,442.545,50.67,ODP Site 1258,"Kirtland Turner et al., 2014",Niederbockstruck et al age model
+Hyp N,"378-U1553C-27R-2,37-38 cm",420.605,451.945,51.55,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp M,"378-U1553D-4R-3,125-126 cm",422.915,454.255,51.97,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp L,"378-U1553D-4R-6,75-76 cm",426.605,457.945,52.46,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp K/ETM-3,"378-U1553D-5R-2,43-44 cm",430.305,460.625,52.845,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp J,"378-U1553C-28R-4,17-18 cm",433.255,464.085,53.26,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp I2,"378-U1553C-28R-5,109-110 cm",435.685,466.515,53.545,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp I1,"378-U1553C-28R-6,99-100 cm",437.005,467.835,53.665,ODP Site 1258,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp H2,"378-U1553C-29R-2,59-60 cm",440.405,470.905,53.95,ODP Site 1262,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp H1/ETM-2,"378-U1553C-29R-3,8-9 cm",441.305,471.805,54.05,ODP Site 1262,"Westerhold et al., 2017",Niederbockstruck et al age model
+δ13C corr PETM rec end,"378-U1553D-7R-1,0-1 cm",448.105,480.735,55.77,ODP Site 1262,"Westerhold et al., 2017",Niederbockstruck et al age model
+Hyp PETM/ETM-1,"378-U1553D-7R-2,5-6 cm",449.455,482.085,55.93,ODP Site 1262,"Westerhold et al., 2017",Niederbockstruck et al age model
+δ13C corr PETM onset,"378-U1553C-31R-2,47-48 cm",449.905,482.575,55.98,ODP Site 1262,"Westerhold et al., 2017",Niederbockstruck et al age model
+δ13C corr,"378-U1553D-7R-3,71-72 cm",451.605,484.235,56.379,ODP Site 1262,"Zachos et al., 2010",Niederbockstruck et al age model
+δ13C corr,"378-U1553D-7R-3,121-122 cm",452.105,484.735,56.497,ODP Site 1262,"Zachos et al., 2010",Niederbockstruck et al age model
+δ13C corr,"378-U1553D-7R-9,35-36 cm",453.605,486.235,56.69,ODP Site 1262,"Zachos et al., 2010",Niederbockstruck et al age model
+δ13C corr,"378-U1553C-32R-2,30-31 cm",454.605,487.475,56.861,ODP Site 1262,"Zachos et al., 2010",Niederbockstruck et al age model
+δ13C corr,"378-U1553C-32R-3,129-130 cm",456.805,489.675,57.22,ODP Site 1262,"Zachos et al., 2010",Niederbockstruck et al age model
+B Fasciculithus tympaniformis,"U1553D-9R-1, 68",469.05,501.68,61.51,,,Shipboard age model
+B Palaeoperidinium pyrophorum,U1553D-10R-CC,483.13,515.76,62.5,,,Shipboard age model
+T Senoniasphaera inornata,U1553D-14R-CC,523.08,555.71,63.4,,,Shipboard age model
+B Trithyrodinium evittii,U1553D-17R-CC,559.27,593.68,64,,,Shipboard age model
