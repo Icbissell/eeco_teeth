@@ -5,8 +5,6 @@ library(egg)
 library(mgcv)
 library(ggplot2)
 
-setwd("/Users/icbissell/Documents/research/Eocene_teeth/final_code/f_figures")
-
 #dev.off()
 
 
@@ -30,13 +28,13 @@ col.rangechart[1] <- 'gray70'
 
 par(mar = c(12, 5, 3, 3))
 
-# xax<-rangechart(counts, reorder = 'lad.by.fad', normalize.counts = FALSE, 
+# xax<-rangechart(counts, reorder = 'lad.by.fad', normalize.counts = FALSE,
 #                 col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5), # 1, 2, 3, 4-5, 6+
 #                 cex.points = 'by.count', largesize = 1,
 #                 xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
 #                 print.xaxis = T, main = '', ylab = 'Age (Ma)')
 
-hide<-rangechart(morph.counts, reorder = 'fad.by.lad', normalize.counts = TRUE, 
+hide<-rangechart(morph.counts, reorder = 'fad.by.lad', normalize.counts = TRUE,
                  col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
                  cex.points = 'by.count', largesize = 1,
                  xaxis.labels = 'names', yaxis.ticks = TRUE,
@@ -55,7 +53,7 @@ rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 
 #plot again on top of rectangle
 par(new = T)
-rangechart(morph.counts, reorder = 'fad.by.lad', normalize.counts = TRUE, 
+rangechart(morph.counts, reorder = 'fad.by.lad', normalize.counts = TRUE,
            col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
            cex.points = 'by.count', largesize = 1,
            xaxis.labels = 'names', yaxis.ticks = TRUE,
@@ -106,13 +104,13 @@ text.scale <- 1.2
 pt.scale <- 1.4
 
 #plot temperature (but hide it)
-par(mfrow = c(1, 3), 
+par(mfrow = c(1, 3),
     oma = c(8, 4, 4.5, 0.5),  #set outer margins for axis labels
     mar = c(0, 0, 0, 0))  # set plot martins to be very squished together
 
-hide <- plot(x = o_roll$d18O, y = o_roll$age, type = 'n', pch = 16, 
-             col = 'darkcyan', ylim = yaxis.age, cex = pt.scale, 
-             xlim = c(max(o_roll$d18O), min(o_roll$d18O)), 
+hide <- plot(x = o_roll$d18O, y = o_roll$age, type = 'n', pch = 16,
+             col = 'darkcyan', ylim = yaxis.age, cex = pt.scale,
+             xlim = c(max(o_roll$d18O), min(o_roll$d18O)),
              bty = 'n', axes = FALSE, xlab = '', ylab = '')
 
 #get rect coordinates
@@ -133,7 +131,7 @@ rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 par(mfg = c(1, 3))
 rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 
-par(new = T, mfrow = c(1, 3), 
+par(new = T, mfrow = c(1, 3),
     oma = c(8, 4, 4.5, 0.5),  #set outer margins for axis labels
     mar = c(0, 0, 0, 0))  # set plot martins to be very squished together
 
@@ -142,8 +140,8 @@ eo.col <- adjustcolor('lightskyblue', alpha.f = 0.3)
 
 #plot temperature
 par(mfg = c(1, 1))
-plot(x = o_roll$d18O, y = o_roll$age, type = 'o', pch = 16, col = 'darkcyan', ylim = yaxis.age, cex = pt.scale, 
-     xlim = c(max(o_roll$d18O), min(o_roll$d18O)), 
+plot(x = o_roll$d18O, y = o_roll$age, type = 'o', pch = 16, col = 'darkcyan', ylim = yaxis.age, cex = pt.scale,
+     xlim = c(max(o_roll$d18O), min(o_roll$d18O)),
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 
 axis(1) # D18O values
@@ -153,14 +151,14 @@ axis(2, at=seq(42,63, by=2)) #age axis
 mtext(text = 'Age (Ma)', side = 2, line = 2.5, cex = axis.scale)
 
 #plot IAR
-plot(x = iar$IAR, y = iar$age, type = 'o', pch = 16, col = 'chocolate', ylim = yaxis.age, cex = pt.scale, 
-     xlim = c(0, max(iar$IAR)), 
+plot(x = iar$IAR, y = iar$age, type = 'o', pch = 16, col = 'chocolate', ylim = yaxis.age, cex = pt.scale,
+     xlim = c(0, max(iar$IAR)),
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 axis(1) # IAR values
 mtext (text = iar.axis.text, side = 1, line = 2.5, cex = axis.scale)
 par(new = TRUE)
-plot(x = IAR.596$ich_accum, y = IAR.596$age, type = 'o', pch = 18, col=adjustcolor('darkorchid', alpha=0.45), ylim = yaxis.age, cex = pt.scale, 
-     xlim = c(0, max(IAR.596$ich_accum)), 
+plot(x = IAR.596$ich_accum, y = IAR.596$age, type = 'o', pch = 18, col=adjustcolor('darkorchid', alpha=0.45), ylim = yaxis.age, cex = pt.scale,
+     xlim = c(0, max(IAR.596$ich_accum)),
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 axis(3)
 mtext (text = expression(paste('DSDP 596 IAR (ich >106 ', mu, 'm ','cm'^'-2','Myr'^'-1', ')')), side = 3, line = 2.5, cex = axis.scale)
@@ -184,7 +182,7 @@ upper <- y_pred + ci
 # lines(x_vals, lower, col = "blue", lty = "dashed")
 # lines(x_vals, upper, col = "blue", lty = "dashed")
 
-plot(y_pred, x_vals, type = "l", bty = 'n', axes = FALSE, xlab = '', 
+plot(y_pred, x_vals, type = "l", bty = 'n', axes = FALSE, xlab = '',
      ylab = '', ylim = yaxis.age, xlim = c(min(mean_length$length), max(mean_length$length)))
 points(mean_length$length, mean_length$age, pch = 16)
 polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=adjustcolor('dodgerblue', alpha=0.25), border = NA)
@@ -221,11 +219,11 @@ for(i in 1:length(iar$age)) {
   if (ind == 1) {
     match_d18O[i] <- o_roll$d18O[ind]
   }
-  
+
   else{
     match_d18O[i] <- mean(o_roll$d18O[(ind-2):(ind+2)])
   }
-  
+
 }
 
 d18O_IAR <- data.frame(age = iar$age, d18O = match_d18O, IAR = iar$IAR)
@@ -240,7 +238,7 @@ d18O_IAR_596 <- data.frame(age = IAR.596$age, d18O = match_d18O_596, IAR = IAR.5
 summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
 
 par(mfrow = c(1, 2))
-par(mar = c(5, 4, 4, 2)) 
+par(mar = c(5, 4, 4, 2))
 model <-lm(log(IAR)~d18O, d18O_IAR)
 newx <- seq(min(d18O_IAR$d18O), max(d18O_IAR$d18O), by = 0.01)
 new_data <- data.frame(d18O = newx)
@@ -284,7 +282,7 @@ upper <- y_pred + ci
 cf2 <- coef(model.2)
 slope.2 <- round(cf2[2], 4)
 
-plot(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O, xlim = rev(range(d18O_IAR_596$d18O)), 
+plot(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O, xlim = rev(range(d18O_IAR_596$d18O)),
      pch = 16, xlab = '', ylab = '')
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
