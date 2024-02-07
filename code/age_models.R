@@ -7,9 +7,13 @@
 # This script calculates age-depth, sedimentation rate, and ichthyolith accumulation rates for
 # the processed samples in the dataset.
 
+#########################
+#                       #
+#        Functions      #
+#                       #
+#########################
 
-##### Functions #####
-
+###### ageDepth.fn for calculating age-depth #####
 # Interpolation function for calculating age from age-depth (pointer) and depths.out (sample depths)
 ageDepth.fn <- function(ages.pointer, depths.pointer, depths.out, plot.out = FALSE) {
    agemodel <- approx(x = depths.pointer, y = ages.pointer, xout = depths.out)
@@ -22,7 +26,7 @@ ageDepth.fn <- function(ages.pointer, depths.pointer, depths.out, plot.out = FAL
    return(agemodel)
 }
 
-# Sedimentation rate calculation
+##### sedRate.cm.myr.fn Sedimentation rate calculation #####
 
 sedRate.cm.myr.fn <- function(ages, depths) {
 
@@ -35,6 +39,12 @@ sedRate.cm.myr.fn <- function(ages, depths) {
    return(sed.rate)
 }
 
+
+###############################
+#                             #
+#     Dataset Processing      #
+#                             #
+###############################
 
 ##### Call in and select relevant data for EECO Dataset from whole processing log #####
 
@@ -49,7 +59,7 @@ all_data <- all_data[,relevant_columns]
 
 ##### Age-Depth Tables for age models used in this study #####
 
-### Shipboard age depth model ###
+##### Shipboard age depth model #####
 shipboard_age_table <- read.csv('data/U1553_Processing_Log - Age_Model_Shipboard_T19.csv',
                                 skip = 4, header = TRUE)
 
@@ -71,7 +81,7 @@ all_data$shipboard_sedrate <- sedRate.cm.myr.fn(ages = all_data$shipboard_ages,
 all_data$shipboard_IAR <- (all_data$Total.Ichthyoliths..manual./all_data$Dry.Weight) * all_data$shipboard_sedrate * all_data$DBD..variable..g.cm.3.
 
 
-#### Niederbockstruck et al age model ###
+##### Niederbockstruck et al age model #####
 
 nieder_age_table <- read.csv('data/U1553_Processing_Log - Age_Model_Niederbockstruck_splice.csv',
                              skip = 3, header = TRUE)
@@ -93,15 +103,22 @@ all_data$nieder_sedrate <- sedRate.cm.myr.fn(ages = all_data$nieder_ages,
 all_data$nieder_IAR <- (all_data$Total.Ichthyoliths..manual./all_data$Dry.Weight) * all_data$nieder_sedrate * all_data$DBD..variable..g.cm.3.
 
 
-##### Pull only the E. Eocene samples that were processed as part of this study #####
+##### chas_dataset <- Pull only the E. Eocene samples that were processed as part of this study #####
 chas_sample_IDs <- c(93, 95, 97, 99, 101, 103, 105, 107, 109, 111, 113, 115,
                      117, 119, 121, 123, 125, 130, 131, 133, 135, 139, 143)
 
 chas_dataset <- all_data[chas_sample_IDs,]
 
+
+###############################
+#                             #
+#     Age Model Figures       #
+#                             #
+###############################
+
 ##### Figures comparing age models #####
 
-### 2-panel age-depth plot ###
+##### 2-panel age-depth plot #####
 par(mfrow = c(1,2))
 # shipboard age model
 shipboard_ages <- ageDepth.fn(ages.pointer = shipboard_pointers$age,
@@ -122,7 +139,7 @@ abline(v=min(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
 abline(v=max(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
 
 
-### Line plots comparing the two different IARs ###
+##### Line plots comparing the two different IARs #####
 par(mfrow = c(1,1))
 plot(chas_dataset$shipboard_ages, chas_dataset$shipboard_IAR,
      type = 'l', col = 'darkorange', lwd = 1.5,
@@ -144,16 +161,74 @@ mtext("Ichthyolith Accumulation Rate", side = 3, line = 1, cex = 1.2, font = 2)
 
 
 
-################### Range Chart Comparisons #####################
+
+#####################################
+#                                   #
+#        Morphotype Datasets        #
+#                                   #
+#####################################
+##### Call in and Clean Morphotypes Dataset #####
+
+# Call in dataset
 morphs <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
 
-age.lookup.fn <- function(x, dataset, key.column, return.column) {
-   lookup_table <- data.frame(key = dataset[,key.column], return = dataset[,return.column])
-   xx <- which(key.column %in% x) #figure out the right array line to look up
-   return.value <- dataset[xx, return.column]
-   return(return.value)
-}
+# Clean the morphs dataset to only have named morphotypes
+morphs <- morphs[!morphs$Alias=="",]
 
-morphs$shipboard_ages <- apply(morphs$Sample.number, 1, age.lookup.fn)
 
-# which(chas_dataset$Serial.. %in% x) #returns correct values
+##### Shipboard Age Model #####
+
+## Assign shipboard-based ages
+morphs$shipboard_ages <- all_data[match(morphs$Sample.number, all_data$Serial..),18] # Pull the shipboard ages (column 18) value for the morphs
+
+## Testing to see if the lookup pulled the right ages:
+sort(unique(morphs$shipboard_ages))==chas_dataset$shipboard_ages #should be all true
+# Yay this worked!
+
+# Make counts matrix for plotting
+morph.age.shipboard <- data.frame(age = morphs$shipboard_ages, morphotype = morphs$Alias)
+morph.counts.shipboard <- table(morph.age.shipboard)
+
+
+###### Niederbockstruck et al age model #####
+
+## Assign Niederbockstruck ages
+morphs$nieder_ages <- all_data[match(morphs$Sample.number, all_data$Serial..),21] # Pull the Niederbockstruck et al ages (column 21) value for the morphs
+
+## Testing to see if the lookup pulled the right ages:
+sort(unique(morphs$nieder_ages))==chas_dataset$nieder_ages #should be all true
+# Yay this worked!
+
+
+# Make counts matrix for plotting
+morph.age.nieder <- data.frame(age = morphs$nieder_ages, morphotype = morphs$Alias)
+morph.counts.nieder <- table(morph.age.nieder)
+
+
+
+
+
+#####################################
+#                                   #
+#        Old Code                   #
+#                                   #
+#####################################
+##### Old code #####
+
+# age.lookup.fn <- function(x, dataset, key.column, return.column) {
+#    lookup_table <- data.frame(key = dataset[,key.column], return = dataset[,return.column])
+#    # xx <- which(key.column %in% x) #figure out the right array line to look up
+#    return.value <- dataset[xx, return.column]
+#    return(return.value)
+# }
+#
+# morphs$shipboard_ages <- apply(morphs, 1, age.lookup.fn(x=morphs$Sample.number, dataset = all_data, key.column = 2, return.column = 18))
+#
+# age.lookup.fn(x=morphs$Sample.number, dataset = all_data, key.column = 2, return.column = 18)
+#
+# # which(chas_dataset$Serial.. %in% x) #returns correct values
+#
+# ## Testing
+# lookup_table <- data.frame(key = all_data$Serial.., return = all_data$shipboard_ages)
+#
+# lookup_table[match(morphs$Sample.number, lookup_table[,1]),2] # Pull the ages value for the morphs
