@@ -3,9 +3,12 @@
 
 Contact: Immanuel Chas Bissel or Elizabeth Sibert (esibert@whoi.edu) with questions.
 
-######## ELIZABETH TO UPDATE FILE NUMBERS AT THE END OF THIS #############
+######## BE SURE TO UPDATE FILE NUMBERS AT THE END OF THIS #############
 The workflow for replicating analyses is as follows: 
 1) Run the age_models.R script to generate appropriate ages for the samples. 
+
+
+## Original Files ##
 
 f_figures.R: produces all plots to include in main manuscript
 

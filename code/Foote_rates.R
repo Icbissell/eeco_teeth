@@ -1,14 +1,3 @@
-##############################################
-#                                            #
-#     Evolutionary Rate Calculations:        #
-#              Foote (2000)                  #
-#     Will have Capture-mark-recapture       #
-#        in future                           #
-#                                            #
-##############################################
-
-## Note that this all requires a morph.counts object, either morph.counts.nieder or morph.counts.shipboard
-
 #################################################################
 #                                                               #
 #       Code for calculating Extinction and Origination Rates   #
@@ -139,7 +128,7 @@ foote.plot <- function(foote, ...) {
 ###############################
 #                             #
 #     Comparing age models    #
-#        figures              #
+#        Foote figures        #
 #                             #
 ###############################
 
@@ -156,3 +145,6 @@ foote.plot(foote.nieder)
 mtext("Niederbockstruck et al age model", side = 3, line = 1, cex = 1.2, font = 2)
 
 
+
+##### Reset and clean up #####
+par(mfrow = c(1,1))

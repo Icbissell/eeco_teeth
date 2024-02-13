@@ -1,6 +1,38 @@
+##################################
+#                                #
+#        Setup Datasets:         #
+#        -IAR/Age models         #
+#        -Morphotypes            #
+#        -Published datasets     #
+#                                #
+##################################
+
+## This script can be run as source ##
+## It creates the objects chas_dataset, which includes shipboard and
+#     Neiderbockstruck et al ages for all samples in the dataset. Note that
+#     as this dataset is
+# The main outputs from this script that are used for figure-making and further analyses are:
+#     1. chas_data: a data frame with all 23 data points, as well as both age models
+#        and calculated IAR values for each data point
+#     2. morph.counts.nieder and morph.counts.shipboard: Morphotype occurrence tables
+#        with rownames that have the respective ages for each age model, for range charts
+#        and evolutionary rate calculations
+#     3. morphs object is used in compute_length.R
+#     4. age.range is the min/max ages from the datasets
+
 ############################
 #                          #
-#     Age Model Setups     #
+#        Libraries         #
+#                          #
+############################
+library(zoo) #for rollmean
+library(mgcv) #for gam
+library(ichthyoliths) #for range chart
+library(viridis) #for range chart
+
+############################
+#                          #
+#     Age Model Setup      #
 #                          #
 ############################
 
@@ -42,7 +74,7 @@ sedRate.cm.myr.fn <- function(ages, depths) {
 
 ###############################
 #                             #
-#     Dataset Processing      #
+#        IAR Datasets         #
 #                             #
 ###############################
 
@@ -109,57 +141,8 @@ chas_sample_IDs <- c(93, 95, 97, 99, 101, 103, 105, 107, 109, 111, 113, 115,
 
 chas_dataset <- all_data[chas_sample_IDs,]
 
-
-###############################
-#                             #
-#     Age Model Figures       #
-#                             #
-###############################
-
-##### Figures comparing age models #####
-
-##### 2-panel age-depth plot #####
-par(mfrow = c(1,2))
-# shipboard age model
-shipboard_ages <- ageDepth.fn(ages.pointer = shipboard_pointers$age,
-                              depths.pointer = shipboard_pointers$ccsf.mid,
-                              depths.out = all_data$Mid.depth.CCSF..calc.,
-                              plot.out = T)
-mtext("Shipboard Age Model", side = 3, line = 1, cex = 1.5, font = 2)
-abline(v=min(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
-abline(v=max(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
-
-# Niederbockstruck age model
-nieder_ages <- ageDepth.fn(ages.pointer = nieder_pointers$age,
-                           depths.pointer = nieder_pointers$ccsf.mid,
-                           depths.out = all_data$Mid.depth.CCSF..calc.,
-                           plot.out = T)
-mtext("Niederbockstruck Age Model", side = 3, line = 1, cex = 1.5, font = 2)
-abline(v=min(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
-abline(v=max(chas_dataset$Mid.depth.CCSF..calc.), lty = 3)
-
-
-##### Line plots comparing the two different IARs #####
-par(mfrow = c(1,1))
-plot(chas_dataset$shipboard_ages, chas_dataset$shipboard_IAR,
-     type = 'l', col = 'darkorange', lwd = 1.5,
-     xlab = '',
-     ylab = '')
-points(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, type = 'l', col = 'dodgerblue', lwd = 1.5)
-
-# Add data points to compare exact samples to each other:
-points(chas_dataset$shipboard_ages, chas_dataset$shipboard_IAR, pch = c(1:23))
-points(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, pch = c(1:23))
-
-# legend and Axis labels
-legend('topright', legend = c("Shipboard", "Niederbockstruck"),
-       lty = 1, lwd = 1.5, col = c('darkorange', 'dodgerblue'))
-mtext('Age (Ma)', side = 1, line = 3)
-mtext(expression("Ichthyoliths " * cm^-2 * myr^-1), side = 2, line = 2.5)
-mtext("Ichthyolith Accumulation Rate", side = 3, line = 1, cex = 1.2, font = 2)
-
-
-
+# Age range is rounded to million year bounds above and below the youngest points.
+age.range <- c(floor(min(chas_dataset$shipboard_ages, chas_dataset$nieder_ages)), ceiling(max(chas_dataset$shipboard_ages, chas_dataset$nieder_ages)))
 
 
 #####################################
@@ -207,28 +190,34 @@ morph.counts.nieder <- table(morph.age.nieder)
 
 
 
+##################################
+#                                #
+#     Published Datasets Import  #
+#                                #
+##################################
 
-#####################################
-#                                   #
-#        Old Code                   #
-#                                   #
-#####################################
-##### Old code #####
+##### Westerhold 2020 oxygen data #####
 
-# age.lookup.fn <- function(x, dataset, key.column, return.column) {
-#    lookup_table <- data.frame(key = dataset[,key.column], return = dataset[,return.column])
-#    # xx <- which(key.column %in% x) #figure out the right array line to look up
-#    return.value <- dataset[xx, return.column]
-#    return(return.value)
-# }
-#
-# morphs$shipboard_ages <- apply(morphs, 1, age.lookup.fn(x=morphs$Sample.number, dataset = all_data, key.column = 2, return.column = 18))
-#
-# age.lookup.fn(x=morphs$Sample.number, dataset = all_data, key.column = 2, return.column = 18)
-#
-# # which(chas_dataset$Serial.. %in% x) #returns correct values
-#
-# ## Testing
-# lookup_table <- data.frame(key = all_data$Serial.., return = all_data$shipboard_ages)
-#
-# lookup_table[match(morphs$Sample.number, lookup_table[,1]),2] # Pull the ages value for the morphs
+# import
+o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
+
+# process oxygen dataset:
+#prepare temperature and length tests
+o_df1 <- data.frame(age = as.numeric(o_data$Age_Ma), d18O = as.numeric(o_data$d18O_loess_smooth))
+o_df1 = o_df1[(o_df1$age >= min(age.range)) & (o_df1$age <= max(age.range)), ]
+
+#compute rolling mean of temperature data
+o_roll <- data.frame(rollmean(o_df1, 100))
+
+
+##### DSDP Site 596 IAR - Sibert et al 2016/Britten and Sibert 2020 #####
+IAR.596 <- read.csv("data/DSDP_596_Fish_Accumulation_siteid_1_132.csv")
+# Only plotting data within our time range
+IAR.596 <- IAR.596[(IAR.596$age > min(age.range)) & (IAR.596$age < max(age.range)), ]
+
+############################
+#                          #
+#        Clean up          #
+#                          #
+############################
+rm(relevant_columns, nieder_ages, shipboard_ages)

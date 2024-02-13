@@ -1,3 +1,5 @@
+## Elizabeth to edit so that "Age" is replaced with "SampleID" then can merge into Chas_Dataset
+
 ##### Libraries #####
 
 library(stringr)
@@ -5,6 +7,8 @@ library(car)
 library(ggplot2)
 library(plyr)
 library(zoo)
+library(mgcv)
+
 
 ##### Functions #####
 
@@ -35,7 +39,7 @@ cut_to <- function(lengthID, total_data) {
 ##### Dataset Processing #####
 
 # Morphotypes occurrence dataset
-total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
+# total_data <- read.csv("data/ToothMorph_V0.4_Morphotypes - Chas_U1553.csv")
 
 # Westerhold oxygen data
 o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")

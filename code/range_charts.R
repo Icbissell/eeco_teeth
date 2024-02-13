@@ -4,6 +4,10 @@
 #                                   #
 #####################################
 
+library(viridis)
+library(ichthyoliths)
+
+
 # Requires age_models.R to be run to get morphometric datasets on the right age models
 
 ##### Shipboard Age Model Range Chart #####
@@ -102,3 +106,11 @@ legend('bottomright', legend = c('1', '2-3', '4-5', '6-10', '11+'),
        ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.5)
 
 mtext("Niederbockstruck et al age model", side = 3, line = 1, cex = 1.2, font = 2)
+
+
+
+##### Reset graphical parameters & Clean up #####
+par(mar = c(5.1,4.1,4.1,2.1)) #reset default margins
+par(mfrow = c(1,1)) #reset to single plotting frame
+
+rm(hide, rec.col, usr, xleft, xright, ybottom, ytop)

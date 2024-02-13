@@ -1,30 +1,39 @@
 library(zoo)
 library(mgcv)
+# library(car)
+# library(ggplot2)
 
-#set path to Westerhold oxygen data
-o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
-#set path to IAR data
-iar <- read.csv("data/iar.csv")
-#set path to mean length data
-mean_length <- read.csv("data/length_means.csv")
-#import DSDP 596 IAR data
-IAR.596 <- read.csv("data/DSDP_596_Fish_Accumulation_siteid_1_132.csv")
-IAR.596 <- IAR.596[(IAR.596$age > min(mean_length$age)) & (IAR.596$age < max(mean_length$age)), ]
 
-#set path to total length data
-teeth_total <- read.csv("data/teeth_total.csv")
+# #set path to Westerhold oxygen data
+# o_data <- read.csv("data/Westerhold_2020_Oxygen_Carbon_smooth.csv")
+# #set path to IAR data
+# iar <- read.csv("data/iar.csv")
+# #set path to mean length data
+# mean_length <- read.csv("data/length_means.csv")
+# #import DSDP 596 IAR data
+# IAR.596 <- read.csv("data/DSDP_596_Fish_Accumulation_siteid_1_132.csv")
+# IAR.596 <- IAR.596[(IAR.596$age > min(mean_length$age)) & (IAR.596$age < max(mean_length$age)), ]
+#
+# #set path to total length data
+# teeth_total <- read.csv("data/teeth_total.csv")
+#
+# #prepare temperature and length tests
+# o_df1 <- data.frame(age = as.numeric(o_data$Age_Ma), d18O = as.numeric(o_data$d18O_loess_smooth))
+# #o_df1 = o_df1[(o_df1$age >= min(mean_length$age)) & (o_df1$age <= max(mean_length$age)), ]
+#
+# #compute rolling mean of temperature data
+# o_roll <- data.frame(rollmean(o_df1, 100))
 
-#prepare temperature and length tests
-o_df1 <- data.frame(age = as.numeric(o_data$Age_Ma), d18O = as.numeric(o_data$d18O_loess_smooth))
-#o_df1 = o_df1[(o_df1$age >= min(mean_length$age)) & (o_df1$age <= max(mean_length$age)), ]
+##### Select whether to work with Neiderbockstruck or Shipboard ages #####
+# iar <- data.frame(age = chas_dataset$nieder_ages, iar = chas_dataset$nieder_IAR)
+# iar <- data.frame(age = chas_dataset$shipboard_ages, iar = chas_dataset$shipboard_IAR)
 
-#compute rolling mean of temperature data
-o_roll <- data.frame(rollmean(o_df1, 100))
 
+##### Calculate d18O around the IAR values #####
 match_d18O <- c()
 
-for(i in 1:length(iar$age)) {
-  ind <- which(abs(o_roll$age-iar$age[i])==min(abs(o_roll$age-iar$age[i])))
+for(i in 1:length(chas_dataset$nieder_ages)) {
+  ind <- which(abs(o_roll$age-chas_dataset$nieder_ages[i])==min(abs(o_roll$age-chas_dataset$nieder_ages[i])))
   print(ind)
   if (ind == 1) {
     match_d18O[i] <- o_roll$d18O[ind]
@@ -36,7 +45,8 @@ for(i in 1:length(iar$age)) {
 
 }
 
-d18O_IAR <- data.frame(age = iar$age, d18O = match_d18O, IAR = iar$IAR)
+d18O_IAR <- data.frame(age = chas_dataset$nieder_ages, d18O = match_d18O,
+                       IAR = chas_dataset$nieder_IAR)
 
 match_d18O_596 <- c()
 for(i in 1:length(IAR.596$age)) {
@@ -45,7 +55,11 @@ for(i in 1:length(IAR.596$age)) {
 
 d18O_IAR_596 <- data.frame(age = IAR.596$age, d18O = match_d18O_596, IAR = IAR.596$ich_accum)
 
+
+### Stats
 summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
+summary(lm(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O))
+
 
 ###################Further test correlation#############################
 
@@ -149,10 +163,12 @@ text(0.4, 5.1, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 ############################################
 
 #calculate factor to scale
-scale.vec <- data.frame(Age = unique(teeth_total$Age))
+# scale.vec <- data.frame(Age = unique(teeth_total$Age)) #replacing this column since it no longer exists
+scale.vec <- data.frame(Age = unique(teeth_total$nieder_ages))
+
 scale.vec$fac <- 0
 for (i in 1:length(scale.vec$Age)) {
-  sub.t <- subset(teeth_total, Age == scale.vec$Age[i])
+  sub.t <- subset(teeth_total, nieder_ages == scale.vec$Age[i])
   scale.vec$fac[i] <- sum(pmin(sub.t$Height, sub.t$Width) > 150) / length(sub.t$length)
 }
 
@@ -231,3 +247,11 @@ text(0.4, 9.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
 text(0.4, 9.55, bquote(paste('P = ', .(pval))), cex = 0.8)
 text(0.4, 9.35, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 
+
+############################
+#        Clean up          #
+############################
+rm(cor_vec, m.s, model, model.2, pred, pred.2, sim_data, sub.t, acf_do, acf_iar, axis.scale, cf1, cf2, ci, i, ind, lb.1, lb.2, lower, newx, newx.2, num_sim, pval, r2, se, sim_x, sim_y, slope.1, slope.2, ub.1, ub.2, upper, x_vals, y_pred)
+
+par(mar = c(5.1,4.1,4.1,2.1)) #reset default margins
+par(mfrow = c(1,1)) #reset to single plotting frame

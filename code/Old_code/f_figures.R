@@ -69,9 +69,6 @@ legend('bottomright', legend = c('1', '2-3', '4-5', '6-10', '11+'),
        ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.5)
 
 
-################################################
-
-
 ######## Vars over time ############
 
 
@@ -190,6 +187,9 @@ polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=adjustcolor('dodgerblu
 axis(1) # length values
 mtext (text = "Mean length (unit?)", side = 1, line = 2.5, cex = axis.scale)
 
+
+
+################################################
 
 ######## Cross plot ############
 #set path to Westerhold oxygen data
