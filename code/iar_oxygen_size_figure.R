@@ -118,12 +118,16 @@ ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% con
 lower <- y_pred - ci
 upper <- y_pred + ci
 
+xlims <- c(floor(min(lower, length_stats$length_mean)), ceiling(max(upper, length_stats$length_mean)))
+
 # plot(x_vals, y_pred, xlab = "x", ylab = "Response", type = "l")
 # lines(x_vals, lower, col = "blue", lty = "dashed")
 # lines(x_vals, upper, col = "blue", lty = "dashed")
 
 plot(y_pred, x_vals, type = "l", bty = 'n', axes = FALSE, xlab = '',
-     ylab = '', ylim = yaxis.age, pch = 16)# , xlim = age.range, pch = 16)
+     ylab = '', ylim = yaxis.age, pch = 16, xlim = xlims)
+     #xlim = c(min(floor(lower)), max(ceiling(upper))))
+    # xlim = c(floor(min(y_pred)), ceiling(max(y_pred))))# , xlim = age.range, pch = 16)
 points(length_stats$length_mean, length_stats$nieder_ages, pch = 16)
 polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=means.col, border = NA)
 axis(1) # length values
@@ -137,4 +141,4 @@ par(mfrow = c(1,1)) #reset to single plotting frame
 par(oma = c(0,0,0,0))  #set outer margins for axis labels
 
 
-rm(ytop, ybottom, y_pred, xright, xleft, usr, upper, text.scale, se, pt.scale, lower, hide, eo.col, ci, axis.scale, new_data)
+rm(ytop, ybottom, y_pred, xright, xleft, usr, upper, text.scale, se, pt.scale, lower, hide, eo.col, ci, axis.scale, new_data, xlims)
