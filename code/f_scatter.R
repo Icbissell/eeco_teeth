@@ -213,9 +213,9 @@ mtext(text = "IODP 1553", cex = 1)
 r2 <- round(summary(model)$r.squared, 4)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 4)
-text(0.4, 9.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9.55, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 9.35, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
+text(0.4, 10, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.4, 9.85, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.4, 9.7, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 
 #create model for 596
@@ -230,7 +230,7 @@ ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% con
 lower <- y_pred - ci
 upper <- y_pred + ci
 cf2 <- coef(model.2)
-slope.2 <- cf2[2]
+slope.2 <- round(cf2[2],4)
 
 plot(log(scale.596$scale.iar) ~ scale.596$d18O, xlim = rev(range(scale.596$d18O)),
      pch = 16, xlab = '', ylab = '')
@@ -243,9 +243,9 @@ mtext(text = "DSDP 596", cex = 1)
 r2 <- round(summary(model.2)$r.squared, 3)
 pval <- summary(model.2)$coefficients[, "Pr(>|t|)"]
 pval <- pval[2]
-text(0.4, 9.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9.55, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 9.35, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+text(0.4, 10.2, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.4, 10.02, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.4, 9.86, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 
 
 ############################
