@@ -41,4 +41,4 @@ source('code/iar_oxygen_size_figure.R')
 ##### Foote_rates.R (can be run as source) #####
 source('code/Foote_rates.R')
 ##### CMR Figures shouldn't be run as source at this time, but has the bones of the figures #####
-# 'code/CMR_Figures.R'
+# source('code/CMR_Figures.R')
