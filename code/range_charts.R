@@ -12,12 +12,26 @@ library(ichthyoliths)
 
 ##### Shipboard Age Model Range Chart #####
 
-## Parameters
 
+writeFile <- 'pdf'
+# writeFile <- 'jpg'
+# writeFile <- 'off'
+
+fig.dims <- c(7, 11) #Set Figure-dimensions
+
+if(writeFile == 'pdf') {
+  pdf('plots/RangeChart.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
+}
+
+if(writeFile == 'jpg') {
+  jpeg('plots/RangeChart.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
+## Parameters
 col.rangechart <- viridis(5)
 col.rangechart[1] <- 'gray70'
 
-par(mar = c(12, 5, 3, 3))
+par(mar = c(10, 5, 1, 2))
 
 # xax<-rangechart(counts, reorder = 'lad.by.fad', normalize.counts = FALSE,
 #                 col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5), # 1, 2, 3, 4-5, 6+
@@ -27,9 +41,10 @@ par(mar = c(12, 5, 3, 3))
 
 hide<-rangechart(morph.counts.shipboard, reorder = 'fad.by.lad', normalize.counts = TRUE,
                  col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
-                 cex.points = 'by.count', largesize = 1,
-                 xaxis.labels = 'names', yaxis.ticks = TRUE,
-                 print.xaxis = T, main = '', ylab = 'Age (Ma)', cex.yaxis = 0.8, cex.xaxis = 0.75)
+                 cex.points = 'by.count', largesize = 1.2,
+                 xaxis.labels = 'names', yaxis.ticks = T,
+                 print.xaxis = T, main = '',ylab = '',  
+                 cex.yaxis = 0.8, cex.xaxis = 0.6)
 
 #get rect coordinates
 usr <- par("usr")
@@ -46,22 +61,25 @@ rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 par(new = T)
 rangechart(morph.counts.shipboard, reorder = 'fad.by.lad', normalize.counts = TRUE,
            col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
-           cex.points = 'by.count', largesize = 1,
+           cex.points = 'by.count', largesize = 1.2,
            xaxis.labels = 'names', yaxis.ticks = TRUE,
-           print.xaxis = T, main = '', ylab = 'Age (Ma)', cex.yaxis = 0.8, cex.xaxis = 0.75)
+           print.xaxis = T, main = '', ylab = '', 
+           cex.yaxis = 0.8, cex.xaxis = 0.6)
 
-axis(side = 2, at = round(as.numeric(rownames(morph.counts.shipboard)), 2), las = 1, cex.axis = 0.8, tck = -0.01)
+mtext("Age (Ma)", side = 2, line = 2)
 
 legend('bottomright', legend = c('1', '2-3', '4-5', '6-10', '11+'),
        pch = c(16),
        col = c(col.rangechart),
        pt.cex = c(1, 1.25, 1.5, 1.75, 2),
-       ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.5)
+       ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.65)
 
-mtext("Shipboard age model", side = 3, line = 1, cex = 1.2, font = 2)
+# mtext("Shipboard age model", side = 3, line = 1, cex = 1.2, font = 2)
 
-
-
+# close file
+if(writeFile != 'off') {
+  dev.off()
+}
 
 ###### Niederbockstruck et al age model Range Chart #####
 
