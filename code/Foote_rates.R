@@ -110,15 +110,20 @@ foote.plot <- function(foote, ...) {
 
    # if(class(foote) == 'matrix') foote <- foote.metrics(sample.matrix)
 
-   plot(foote$ages, foote$orig, col='blue', pch=16, type='o',
+   plot(foote$ages, foote$orig, col=palette.colors()[2], pch=16, type='o',
         # main='Foote 2000 boundary crosser extinction and origination',
-        xlab = 'age (Ma)', ylab = 'origination/extinction rate', ...)  #AgeID.unique
-   points(foote$ages, foote$ext, col='red', pch=16, type='o')
-   legend ('topright', legend=c('origination', 'extinction', 'Diversity (in sample)', 'Diversity (total est)'), col=c('blue', 'red', 'black', 'black'), lty=1, pch=c(16, 16, 1, 16))
+        xlab = 'age (Ma)', ylab = '', ...)  #AgeID.unique
+   points(foote$ages, foote$ext, col=palette.colors()[3], pch=16, type='o')
+   legend ('topright', 
+           legend=c('origination', 'extinction', 'Diversity (in sample)', 'Diversity (total est)'), 
+           col=c(palette.colors()[2], palette.colors()[3], 'black', 'black'), lty=1,
+           pch=c(16, 16, 1, 16), cex = 0.6)
+   mtext('origination/extinction rate', side = 2, line = 2, cex = 0.8)
 
    # add diversity estimated
    par(new=T)
-   plot(foote$ages, foote$Ndiv.est, axes=F, type = 'o', xlab = '', ylab = '')
+   plot(foote$ages, foote$Ndiv.est, axes=F, type = 'o', 
+        xlab = '', ylab = '', ylim = c(0,140))
    axis(4)
 
    # add diversity total
@@ -133,18 +138,16 @@ foote.plot <- function(foote, ...) {
 ###############################
 
 par(mfrow = c(2,1))
-
+par(mar = c(3,5,2,3))
 ##### Shipboard Age Model Calculations & Plot #####
 foote.shipboard <- foote.fn(morph.counts.shipboard)
-foote.plot(foote.shipboard)
-mtext("Shipboard age model", side = 3, line = 1, cex = 1.2, font = 2)
+foote.plot(foote.shipboard, ylim = c(0,0.8))
+mtext("Shipboard age model", side = 3, line = 0.5, cex = 1.2, font = 2)
 
 ##### Niederbockstruck et al Age Model Calculations & Plot #####
 foote.nieder <- foote.fn(morph.counts.nieder)
-foote.plot(foote.nieder)
-mtext("Niederbockstruck et al age model", side = 3, line = 1, cex = 1.2, font = 2)
-
-
+foote.plot(foote.nieder, ylim = c(0,0.8))
+mtext("Niederbockstruck et al age model", side = 3, line = 0.5, cex = 1.2, font = 2)
 
 ##### Reset and clean up #####
 par(mfrow = c(1,1))

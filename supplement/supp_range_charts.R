@@ -31,6 +31,7 @@ if(writeFile == 'jpg') {
 col.rangechart <- viridis(5)
 col.rangechart[1] <- 'gray70'
 
+par(mfrow = c(2,1))
 par(mar = c(10, 5, 1, 2))
 
 # xax<-rangechart(counts, reorder = 'lad.by.fad', normalize.counts = FALSE,
@@ -83,6 +84,20 @@ if(writeFile != 'off') {
 
 ###### Niederbockstruck et al age model Range Chart #####
 
+writeFile <- 'pdf'
+# writeFile <- 'jpg'
+# writeFile <- 'off'
+
+fig.dims <- c(7, 11) #Set Figure-dimensions
+
+if(writeFile == 'pdf') {
+  pdf('supplement_plot/RangeChart.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
+}
+
+if(writeFile == 'jpg') {
+  jpeg('supplement_plot/RangeChart.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
 col.rangechart <- viridis(5)
 col.rangechart[1] <- 'gray70'
 
@@ -121,11 +136,14 @@ legend('bottomright', legend = c('1', '2-3', '4-5', '6-10', '11+'),
        pch = c(16),
        col = c(col.rangechart),
        pt.cex = c(1, 1.25, 1.5, 1.75, 2),
-       ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.5)
+       ncol = 4, title = 'Tooth Count', title.adj = 0.5, cex = 0.8)
 
-mtext("Niederbockstruck et al age model", side = 3, line = 1, cex = 1.2, font = 2)
+mtext("Niederbockstruck et al. age model", side = 3, line = 1, cex = 1.2, font = 2)
 
-
+# close file
+if(writeFile != 'off') {
+  dev.off()
+}
 
 ##### Reset graphical parameters & Clean up #####
 par(mar = c(5.1,4.1,4.1,2.1)) #reset default margins
