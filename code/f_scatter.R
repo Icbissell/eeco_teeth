@@ -28,7 +28,6 @@ library(mgcv)
 # iar <- data.frame(age = chas_dataset$nieder_ages, iar = chas_dataset$nieder_IAR)
 # iar <- data.frame(age = chas_dataset$shipboard_ages, iar = chas_dataset$shipboard_IAR)
 
-
 ##### Calculate d18O around the IAR values #####
 match_d18O <- c()
 
@@ -99,6 +98,20 @@ summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
 
 ########################################################################
 
+writeFile <- 'pdf'
+# writeFile <- 'jpg'
+# writeFile <- 'off'
+
+fig.dims <- c(7, 11) #Set Figure-dimensions
+
+if(writeFile == 'pdf') {
+  pdf('plots/scatter.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
+}
+
+if(writeFile == 'jpg') {
+  jpeg('plots/scatter.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
 par(mfrow = c(1, 2))
 par(mar = c(5, 4, 4, 2))
 model <-lm(log(IAR)~d18O, d18O_IAR)
@@ -116,19 +129,24 @@ slope.1 <- round(cf1[2], 3)
 axis.scale <- 0.8
 
 plot(log(d18O_IAR$IAR)~d18O_IAR$d18O, xlim = rev(range(d18O_IAR$d18O)),
-     pch = 16, xlab = '', ylab = '')
+     pch = 16, xlab = '', ylab = '', axes = F)
+axis(side = 1, cex.axis = 0.9)
+axis(side = 2, cex.axis = 0.9)
+box()
+
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
 mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
-mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
-mtext(text = "IODP 1553", cex = 1)
+mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.1, cex = axis.scale)
+mtext(text = "IODP 1553", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 4)
-text(0.4, 9.95, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9.75, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 9.6, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
+
+text(0.4, 10, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.4, 9.9, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.4, 9.8, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 #create model for 596
 model.2 <-lm(log(IAR)~d18O, data = d18O_IAR_596)
@@ -145,20 +163,29 @@ cf2 <- coef(model.2)
 slope.2 <- round(cf2[2], 3)
 
 plot(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O, xlim = rev(range(d18O_IAR_596$d18O)),
-     pch = 16, xlab = '', ylab = '')
+     pch = 16, xlab = '', ylab = '', axes = F)
+axis(side = 1, cex.axis = 0.85)
+axis(side = 2, cex.axis = 0.85)
+box()
+
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
 abline(model.2)
 mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
-mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
-mtext(text = "DSDP 596", cex = 1)
+mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.1, cex = axis.scale)
+mtext(text = "DSDP 596", cex = 1.5, line = 0.5)
 r2 <- round(summary(model.2)$r.squared, 3)
 pval <- summary(model.2)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 22)
-text(0.4, 5.7, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 5.55, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 5.4, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 
+text(0.4, 5.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.4, 5.65, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.4, 5.55, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+
+# close file
+if(writeFile != 'off') {
+  dev.off()
+}
 
 ############################################
 
