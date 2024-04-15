@@ -106,9 +106,9 @@ prob.est <- subset(Pradrec.teeth.avg[[1]], Pradrec.teeth.avg[[1]]$Par.name == "p
 # 
 # mtext(side = 3, line = 1, "Niederbockstruck et al", font = 2)
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
 # writeFile <- 'jpg'
-# writeFile <- 'off'
+writeFile <- 'off'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
@@ -123,7 +123,7 @@ if(writeFile == 'jpg') {
 par(mfrow = c(2,1))
 par(mar = c(3,3, 2, 3))
 plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
-     xlim = c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages)), 
+     xlim = rev(c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages))), 
      axes = F, type = 'l', lty = 2, lwd = 1.2)
 axis(4, cex.axis = 0.8, at = pretty(chas_dataset$nieder_IAR, n = 10))
 
@@ -131,20 +131,19 @@ axis(4, cex.axis = 0.8, at = pretty(chas_dataset$nieder_IAR, n = 10))
 par(new = T)
 plot(ages.midpt, orig.est$estimate, col = palette.colors()[3], type = 'o', 
      ylim = c(0, 1), ylab = '', xlab = '', 
-     xlim = c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages)), 
+     xlim = rev(c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages))), 
      pch = 16, axes = F)
 
 axis(side = 1, at = pretty(c(61.03830, ages.midpt), n = 10))
 axis(side = 2, at = pretty(c(0,1), n = 10))
 
-
-lines(ages.midpt, ext.est$estimate, col = palette.colors()[2], type = 'o', 
+lines(ages.midpt, 1- ext.est$estimate, col = palette.colors()[2], type = 'o', 
       ylim = c(0.8, 1.2), ylab = '', xlab = '', pch = 17)
 
-legend ('topright', 
+legend ('topleft', 
         legend=c('origination', 'extinction', 'Ichthyolith Accumulation Rate (IAR)'), 
         col=c(palette.colors()[3], palette.colors()[2], 'black'), lty=c(1,1,3),
-        pch=c(16, 17, NA), cex = 0.8, bg = "white")
+        pch=c(16, 17, NA), cex = 0.8, bg = "white", bty = 'n')
 
 mtext("Per Morphotype Evolutionary Rate", side = 2, line = 2, cex = 0.7)
 mtext("Year (Ma)", side = 1, line = 1.6, cex = 0.7)
@@ -225,7 +224,7 @@ lad.fad.fn <- function(counts.table, ages.vector) {
 
 
 plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
-     xlim = c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages)), 
+     xlim = rev(c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages))), 
      axes = F, type = 'l', lty = 2, lwd = 1.2)
 axis(4, cex.axis = 0.8, at = pretty(chas_dataset$nieder_IAR, n = 10))
 
@@ -233,21 +232,21 @@ par(new = T)
 foote.nieder <- foote.fn(morph.counts.nieder)
 plot(foote.nieder$ages, foote.nieder$orig, col=palette.colors()[3], pch=16, type='o',
      xlab = 'age (Ma)', ylab = '', ylim = c(0,0.6), 
-     xlim = c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages)), 
+     xlim = rev(c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages))), 
      axes = F)
 
 axis(side = 1, at = pretty(chas_dataset$nieder_ages, n = 10))
 axis(side = 2, at = pretty(c(0,0.6), n = 10))
 
 points(foote.nieder$ages, foote.nieder$ext, col=palette.colors()[2], pch=17, type='o', 
-       xlim = c(min(chas_dataset$nieder_ages), max(chas_dataset$nieder_ages)))
+       )
 
-legend ('topright', 
+legend ('topleft', 
         legend=c('origination', 'extinction', 'Ichthyolith Accumulation Rate (IAR)'), 
         col=c(palette.colors()[3], palette.colors()[2], 'black'), lty=c(1,1,3),
-        pch=c(16, 17, NA), cex = 0.8)
+        pch=c(16, 17, NA), cex = 0.8, bty = 'n')
 
-mtext("Foote method", side = 3, line = 0.3, cex = 1.2, font = 2)
+mtext("Foote (2000) method", side = 3, line = 0.3, cex = 1.2, font = 2)
 mtext("Per Morphotype Evolutionary Rate", side = 2, line = 2, cex = 0.7)
 mtext("Year (Ma)", side = 1, line = 1.6, cex = 0.7)
 mtext(expression(paste("IAR (ich/", "cm"^"2", "/Myr)")), 

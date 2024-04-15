@@ -132,7 +132,6 @@ rm(teeth_133_1, teeth_133_2)
 teeth_list <- mget(ls(pattern = "^teeth_*"))
 teeth_total <- rbind.fill(teeth_list)
 
-
 # add column that sets length as the max of width and length
 teeth_total$length <- pmax(teeth_total$Height, teeth_total$Width)
 

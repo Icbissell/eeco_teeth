@@ -12,6 +12,20 @@ library(mgcv) #for GAM
 # source('code/setup_age_models.R')
 # source('code/compute_length_updated.R')
 
+# writeFile <- 'pdf'
+# writeFile <- 'jpg'
+writeFile <- 'off'
+
+fig.dims <- c(7, 11) #Set Figure-dimensions
+
+if(writeFile == 'pdf') {
+  pdf('plots/iar_oxy.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
+}
+
+if(writeFile == 'jpg') {
+  jpeg('plots/iar_oxy.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
 
 ##### Graphical Parameters for the whole plot #####
 #set plotting vars
@@ -27,7 +41,7 @@ iar.axis.text <- expression(paste('IODP 1553 IAR (ich 38-150 ', mu, 'm ', 'cm'^'
 rec.col <- 'gray90' # for the EECO rectangle
 temp.col <- 'darkcyan' # Oxygen c urve
 nieder.iar.col <- 'chocolate' # U1553 Niederbockstruck IAR
-dsdp.596.col <- adjustcolor('darkorchid', alpha=0.45) # DSDP 596 IAR
+dsdp.596.col <- adjustcolor(palette.colors()[6], alpha=0.45) # DSDP 596 IAR
 means.col <- adjustcolor('dodgerblue', alpha=0.25) # background of mean tooth length SE band
 
 # not sure where this one came from
@@ -133,7 +147,10 @@ polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=means.col, border = NA
 axis(1) # length values
 mtext (text = "Mean length (unit?)", side = 1, line = 2.5, cex = axis.scale)
 
-
+# close file
+if(writeFile != 'off') {
+  dev.off()
+}
 
 ##### Clean up and reset #####
 par(mar = c(5.1,4.1,4.1,2.1)) #reset default margins
