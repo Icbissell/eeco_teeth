@@ -1,7 +1,7 @@
 # eeco_teeth contains all code and data/analyses used in
 [Manuscript title, author information, etc]
 
-Contact: Immanuel Chas Bissel or Elizabeth Sibert (esibert@whoi.edu) with questions.
+Contact: Immanuel Chas Bissell or Elizabeth Sibert (esibert@whoi.edu) with questions.
 
 ######## BE SURE TO UPDATE FILE NUMBERS AT THE END OF THIS #############
 The workflow for replicating analyses is as follows: 
