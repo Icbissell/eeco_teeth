@@ -102,7 +102,7 @@ writeFile <- 'pdf'
 # writeFile <- 'jpg'
 # writeFile <- 'off'
 
-fig.dims <- c(7, 11) #Set Figure-dimensions
+fig.dims <- c(5, 11) #Set Figure-dimensions
 
 if(writeFile == 'pdf') {
   pdf('plots/scatter.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
@@ -113,7 +113,7 @@ if(writeFile == 'jpg') {
 }
 
 par(mfrow = c(1, 2))
-par(mar = c(5, 4, 4, 2))
+par(mar = c(4, 4, 4, 4))
 model <-lm(log(IAR)~d18O, d18O_IAR)
 newx <- seq(min(d18O_IAR$d18O), max(d18O_IAR$d18O), by = 0.01)
 new_data <- data.frame(d18O = newx)

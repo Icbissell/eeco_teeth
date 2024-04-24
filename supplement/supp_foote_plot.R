@@ -110,26 +110,15 @@ foote.plot <- function(foote, ...) {
   
   # if(class(foote) == 'matrix') foote <- foote.metrics(sample.matrix)
   
-  plot(foote$ages, foote$orig, col=palette.colors()[2], pch=16, type='o',
+  plot(foote$ages, foote$orig, col=palette.colors()[3], pch=16, type='o',
        # main='Foote 2000 boundary crosser extinction and origination',
        xlab = 'age (Ma)', ylab = '', ...)  #AgeID.unique
-  points(foote$ages, foote$ext, col=palette.colors()[3], pch=16, type='o')
+  points(foote$ages, foote$ext, col=palette.colors()[2], pch=16, type='o')
   legend ('topright', 
           legend=c('origination', 'extinction', 'Diversity (in sample)', 'Diversity (total est)'), 
-          col=c(palette.colors()[2], palette.colors()[3], 'black', 'black'), lty=1,
+          col=c(palette.colors()[3], palette.colors()[2], 'black', 'black'), lty=1,
           pch=c(16, 16, 1, 16), cex = 0.9)
   mtext('origination/extinction rate', side = 2, line = 2, cex = 0.8)
-  
-  # add diversity estimated
-  par(new=T)
-  plot(foote$ages, foote$Ndiv.est, axes=F, type = 'o', 
-       xlab = '', ylab = '', ylim = c(0,140))
-  axis(4)
-  
-  mtext("Diversity", side = 4, line = 1.8, cex = 0.8)
-  
-  # add diversity total
-  points(foote$ages, foote$Ntot, pch=16)
 }
 
 ###############################
@@ -155,17 +144,39 @@ if(writeFile == 'jpg') {
 
 par(mfrow = c(2,1))
 par(mar = c(2.5,4.5,2,3.5))
+
 ##### Shipboard Age Model Calculations & Plot #####
+
+xlims = c(61, 42)
+
 foote.shipboard <- foote.fn(morph.counts.shipboard)
-foote.plot(foote.shipboard, ylim = c(0,0.8))
+foote.plot(foote.shipboard, ylim = c(0,0.8), xlim = xlims)
 mtext("Shipboard age model", side = 3, line = 0.5, cex = 1.2, font = 2)
 mtext("Year (Ma)", side = 1, line = 1.6, cex = 0.8, font = 1)
 
+par(new=T)
+plot(foote.shipboard$ages, foote.shipboard$Ndiv.est, axes=F, type = 'o', 
+     xlab = '', ylab = '', ylim = c(0,140), xlim = xlims)
+axis(4)
+
+mtext("Diversity", side = 4, line = 1.8, cex = 0.8)
+points(foote.shipboard$ages, foote.shipboard$Ntot, 
+       pch=16, xlim = xlims)
+
 ##### Niederbockstruck et al Age Model Calculations & Plot #####
 foote.nieder <- foote.fn(morph.counts.nieder)
-foote.plot(foote.nieder, ylim = c(0,0.8))
+foote.plot(foote.nieder, ylim = c(0,0.8), xlim = xlims)
 mtext("Niederbockstruck et al. age model", side = 3, line = 0.5, cex = 1.2, font = 2)
 mtext("Year (Ma)", side = 1, line = 1.6, cex = 0.8, font = 1)
+
+par(new=T)
+plot(foote.nieder$ages, foote.nieder$Ndiv.est, axes=F, type = 'o', 
+     xlab = '', ylab = '', ylim = c(0,140), xlim = xlims)
+axis(4)
+
+mtext("Diversity", side = 4, line = 1.8, cex = 0.8)
+points(foote.nieder$ages, foote.nieder$Ntot, 
+       pch=16, xlim = xlims)
 
 # close file
 if(writeFile != 'off') {

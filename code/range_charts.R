@@ -13,9 +13,9 @@ library(ichthyoliths)
 ##### Shipboard Age Model Range Chart #####
 
 
-# writeFile <- 'pdf'
+writeFile <- 'pdf'
 # writeFile <- 'jpg'
-writeFile <- 'off'
+# writeFile <- 'off'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
@@ -31,7 +31,7 @@ if(writeFile == 'jpg') {
 col.rangechart <- viridis(5)
 col.rangechart[1] <- 'gray70'
 
-par(mar = c(10, 5, 1, 2))
+par(mar = c(6, 5, 1, 2))
 
 # xax<-rangechart(counts, reorder = 'lad.by.fad', normalize.counts = FALSE,
 #                 col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5), # 1, 2, 3, 4-5, 6+
@@ -39,12 +39,12 @@ par(mar = c(10, 5, 1, 2))
 #                 xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
 #                 print.xaxis = T, main = '', ylab = 'Age (Ma)')
 
-hide<-rangechart(morph.counts.shipboard, reorder = 'fad.by.lad', normalize.counts = TRUE,
+hide<-rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
                  col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
                  cex.points = 'by.count', largesize = 1.2,
                  xaxis.labels = 'names', yaxis.ticks = T,
                  print.xaxis = T, main = '',ylab = '',  
-                 cex.yaxis = 0.8, cex.xaxis = 0.6)
+                 cex.yaxis = 0.8, cex.xaxis = 0.35)
 
 #get rect coordinates
 usr <- par("usr")
@@ -59,12 +59,12 @@ rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 
 #plot again on top of rectangle
 par(new = T)
-rangechart(morph.counts.shipboard, reorder = 'fad.by.lad', normalize.counts = TRUE,
+rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
            col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
            cex.points = 'by.count', largesize = 1.2,
            xaxis.labels = 'names', yaxis.ticks = TRUE,
            print.xaxis = T, main = '', ylab = '', 
-           cex.yaxis = 0.8, cex.xaxis = 0.6)
+           cex.yaxis = 0.8, cex.xaxis = 0.35)
 
 mtext("Age (Ma)", side = 2, line = 2)
 
