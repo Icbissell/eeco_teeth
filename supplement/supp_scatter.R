@@ -55,39 +55,6 @@ d18O_IAR_ship <- data.frame(age = chas_dataset$nieder_ages, d18O = match_d18O,
 
 par(mfrow = c(1, 2))
 par(mar = c(5, 4, 4, 2))
-model <-lm(log(IAR)~d18O, d18O_IAR_nieder)
-newx <- seq(min(d18O_IAR_nieder$d18O), max(d18O_IAR_nieder$d18O), by = 0.01)
-new_data <- data.frame(d18O = newx)
-pred <- predict(model, newdata = new_data, se.fit = TRUE)
-
-y_pred <- pred$fit
-se <- pred$se.fit
-ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% confidence level
-lower <- y_pred - ci
-upper <- y_pred + ci
-cf1 <- coef(model)
-slope.1 <- round(cf1[2], 3)
-axis.scale <- 0.8
-
-plot(log(d18O_IAR_nieder$IAR)~d18O_IAR_nieder$d18O, xlim = rev(range(d18O_IAR_nieder$d18O)),
-     pch = 16, xlab = '', ylab = '', axes = F)
-axis(side = 1, cex.axis = 0.9)
-axis(side = 2, cex.axis = 0.9)
-box()
-
-lines(newx, lower, lty = 2)
-lines(newx, upper, lty = 2)
-abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
-mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
-mtext(text = "Niederbockstruck et al. model", cex = 1.5, line = 0.5)
-r2 <- round(summary(model)$r.squared, 4)
-pval <- summary(model)$coefficients[, "Pr(>|t|)"]
-pval <- round(pval[2], 4)
-
-text(0.4, 10, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9.9, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 9.8, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 #create model for shipboard
 model <-lm(log(IAR)~d18O, d18O_IAR_ship)
@@ -123,6 +90,43 @@ pval <- round(pval[2], 4)
 text(0.4, 10.6, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
 text(0.4, 10.47, bquote(paste('P = ', .(pval))), cex = 0.8)
 text(0.4, 10.37, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
+
+
+
+
+model <-lm(log(IAR)~d18O, d18O_IAR_nieder)
+newx <- seq(min(d18O_IAR_nieder$d18O), max(d18O_IAR_nieder$d18O), by = 0.01)
+new_data <- data.frame(d18O = newx)
+pred <- predict(model, newdata = new_data, se.fit = TRUE)
+
+y_pred <- pred$fit
+se <- pred$se.fit
+ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% confidence level
+lower <- y_pred - ci
+upper <- y_pred + ci
+cf1 <- coef(model)
+slope.1 <- round(cf1[2], 3)
+axis.scale <- 0.8
+
+plot(log(d18O_IAR_nieder$IAR)~d18O_IAR_nieder$d18O, xlim = rev(range(d18O_IAR_nieder$d18O)),
+     pch = 16, xlab = '', ylab = '', axes = F)
+axis(side = 1, cex.axis = 0.9)
+axis(side = 2, cex.axis = 0.9)
+box()
+
+lines(newx, lower, lty = 2)
+lines(newx, upper, lty = 2)
+abline(model)
+mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
+mtext(text = "Niederbockstruck et al. model", cex = 1.5, line = 0.5)
+r2 <- round(summary(model)$r.squared, 4)
+pval <- summary(model)$coefficients[, "Pr(>|t|)"]
+pval <- round(pval[2], 4)
+
+text(0.4, 10, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.4, 9.9, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.4, 9.8, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 # close file
 if(writeFile != 'off') {

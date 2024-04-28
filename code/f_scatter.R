@@ -148,6 +148,8 @@ text(0.4, 10, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
 text(0.4, 9.9, bquote(paste('P = ', .(pval))), cex = 0.8)
 text(0.4, 9.8, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
+mtext("a", side = 3, line = 1, at = 0.9, font = 2, cex = 1.4)
+
 #create model for 596
 model.2 <-lm(log(IAR)~d18O, data = d18O_IAR_596)
 newx.2 <- seq(min(d18O_IAR_596$d18O), max(d18O_IAR_596$d18O), by = 0.01)
@@ -181,6 +183,8 @@ pval <- round(pval[2], 22)
 text(0.4, 5.75, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
 text(0.4, 5.65, bquote(paste('P = ', .(pval))), cex = 0.8)
 text(0.4, 5.55, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+mtext("b", side = 3, line = 1, at = 1, font = 2, cex = 1.4)
+
 
 # close file
 if(writeFile != 'off') {

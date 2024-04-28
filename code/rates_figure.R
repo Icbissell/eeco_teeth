@@ -124,10 +124,24 @@ xlims = c(max(chas_dataset$nieder_ages), min(chas_dataset$nieder_ages))
 
 par(mfrow = c(2,1))
 par(mar = c(3,6, 2, 3))
+
+hide <- plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
+     xlim = xlims, 
+     axes = F, type = 'n', lty = 2, 
+     lwd = 1.2, ylab = "", xlab = "")
+
+rec.col <- 'gray90'
+
+#plot rectangle
+rect(53, 0, 49, 50000, col = rec.col, border = rec.col)
+
+par(new = T)
 plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
      xlim = xlims, 
      axes = F, type = 'l', lty = 2, 
      lwd = 1.2, ylab = "", xlab = "")
+
+
 axis(4, cex.axis = 0.8, at = pretty(chas_dataset$nieder_IAR, n = 10))
 
 
@@ -238,9 +252,20 @@ lad.fad.fn <- function(counts.table, ages.vector) {
 }
 
 
+hide <- plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
+             xlim = xlims, 
+             axes = F, type = 'l', lty = 2, lwd = 1.2, xlab = "", ylab = "")
+
+rec.col <- 'gray90'
+
+#plot rectangle
+rect(53, 0, 49, 50000, col = rec.col, border = rec.col)
+
+par(new = T)
 plot(chas_dataset$nieder_ages, chas_dataset$nieder_IAR, 
      xlim = xlims, 
      axes = F, type = 'l', lty = 2, lwd = 1.2, xlab = "", ylab = "")
+
 axis(4, cex.axis = 0.8, at = pretty(chas_dataset$nieder_IAR, n = 10))
 
 par(new = T)
