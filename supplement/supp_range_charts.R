@@ -11,9 +11,9 @@ library(ichthyoliths)
 # Requires age_models.R to be run to get morphometric datasets on the right age models
 ###### Niederbockstruck et al age model Range Chart #####
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
 # writeFile <- 'jpg'
-# writeFile <- 'off'
+writeFile <- 'off'
 
 fig.dims <- c(7, 12) #Set Figure-dimensions
 

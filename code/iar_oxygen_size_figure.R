@@ -93,7 +93,7 @@ plot(x = o_roll$d18O, y = o_roll$age, type = 'o', pch = 16, col = temp.col,
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 
 axis(1) # D18O values
-mtext (text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = axis.scale)
+mtext (text = expression(paste(delta, ''^'18', 'O', "(\u2030)" )), side = 1, line = 2.5, cex = axis.scale)
 
 axis(2, at=seq(42,63, by=2)) #age axis
 mtext(text = 'Age (Ma)', side = 2, line = 2.5, cex = axis.scale)
@@ -145,7 +145,7 @@ plot(y_pred, x_vals, type = "l", bty = 'n', axes = FALSE, xlab = '',
 points(length_stats$length_mean, length_stats$nieder_ages, pch = 16)
 polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=means.col, border = NA)
 axis(1) # length values
-mtext (text = "Mean length (unit?)", side = 1, line = 2.5, cex = axis.scale)
+mtext (text = expression(paste("Mean length (", mu, "m)")), side = 1, line = 2.5, cex = axis.scale)
 
 # close file
 if(writeFile != 'off') {

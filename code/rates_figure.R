@@ -106,9 +106,9 @@ prob.est <- subset(Pradrec.teeth.avg[[1]], Pradrec.teeth.avg[[1]]$Par.name == "p
 # 
 # mtext(side = 3, line = 1, "Niederbockstruck et al", font = 2)
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
 # writeFile <- 'jpg'
-# writeFile <- 'off'
+writeFile <- 'off'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 

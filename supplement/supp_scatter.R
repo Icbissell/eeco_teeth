@@ -1,7 +1,7 @@
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
 # writeFile <- 'jpg'
-# writeFile <- 'off'
+writeFile <- 'off'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
@@ -80,7 +80,7 @@ box()
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "Shipboard model", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
@@ -117,7 +117,7 @@ box()
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "Niederbockstruck et al. model", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)

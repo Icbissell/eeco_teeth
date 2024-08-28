@@ -98,9 +98,9 @@ summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
 
 ########################################################################
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
 # writeFile <- 'jpg'
-# writeFile <- 'off'
+writeFile <- 'off'
 
 fig.dims <- c(5, 11) #Set Figure-dimensions
 
@@ -137,7 +137,7 @@ box()
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "IODP 1553", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
@@ -173,7 +173,7 @@ box()
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
 abline(model.2)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1.5, line = 0.5)
 r2 <- round(summary(model.2)$r.squared, 3)
@@ -238,7 +238,7 @@ plot(log(d18O_IAR$IAR)~d18O_IAR$d18O, xlim = rev(range(d18O_IAR$d18O)),
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
 mtext(text = "IODP 1553", cex = 1)
 r2 <- round(summary(model)$r.squared, 4)
@@ -268,7 +268,7 @@ plot(log(scale.596$scale.iar) ~ scale.596$d18O, xlim = rev(range(scale.596$d18O)
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
 abline(model.2)
-mtext(text = expression(paste(delta, ''^'18', 'O')), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1)
 r2 <- round(summary(model.2)$r.squared, 3)
@@ -286,3 +286,6 @@ rm(cor_vec, m.s, model, model.2, pred, pred.2, sim_data, sub.t, acf_do, acf_iar,
 
 par(mar = c(5.1,4.1,4.1,2.1)) #reset default margins
 par(mfrow = c(1,1)) #reset to single plotting frame
+
+
+
