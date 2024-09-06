@@ -13,8 +13,8 @@ library(mgcv) #for GAM
 # source('code/compute_length_updated.R')
 
 # writeFile <- 'pdf'
-# writeFile <- 'jpg'
-writeFile <- 'off'
+writeFile <- 'jpg'
+# writeFile <- 'off'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 

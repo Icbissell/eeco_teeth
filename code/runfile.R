@@ -17,7 +17,7 @@ source('code/compute_length_updated.R')
 
 ##### Step 3: Calculate correlation Statistics on IAR vs. d18O, etc.
 # Can run f_scatter.R from source, it will create the additional cross-plot figures
-source('code/f_scatter.R')
+source('code/scatter.R')
 
 ##### Step 4: Capture-mark-recapture Evolutionary Rate Calculations #####
 # If you have MARK installed, you can run this file; Otherwise, load the .RData file to add the output objects.
