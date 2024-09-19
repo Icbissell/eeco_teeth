@@ -62,10 +62,19 @@ summary(lm(log(d18O_IAR_596$IAR) ~ d18O_IAR_596$d18O))
 
 ###################Further test correlation#############################
 
-acf_do <- acf(d18O_IAR$d18O, plot = FALSE)$acf[2]
-acf_iar <- acf(d18O_IAR$IAR, plot = FALSE)$acf[2]
 
-set.seed(1234)
+#try correction with linear model fit:
+model.iar <- lm(d18O_IAR$IAR ~ d18O_IAR$age)
+model.d18 <- lm(d18O_IAR$d18O ~ d18O_IAR$age)
+
+# Detrended series
+model.iar <- residuals(model.iar)
+model.d18 <- residuals(model.d18)
+
+acf_do <- acf(model.d18, plot = FALSE)$acf[2]
+acf_iar <- acf(model.iar, plot = FALSE)$acf[2]
+
+set.seed(123)
 num_sim <- 10000
 sim_data <- vector("list", length = num_sim)
 
@@ -93,8 +102,26 @@ print(lb.2)
 ub.2 <- quantile(cor_vec[,2], 0.975)
 print(ub.2)
 
-cor(d18O_IAR$d18O, log(d18O_IAR$IAR))
-summary(lm(log(d18O_IAR$IAR) ~ d18O_IAR$d18O))
+model <-lm(model.iar ~ model.d18)
+
+cor(model.d18, model.iar)
+summary(lm(model.iar ~ model.d18))
+
+
+#try correction with linear model fit:
+model1 <- lm(d18O_IAR$IAR ~ d18O_IAR$age)
+model2 <- lm(d18O_IAR$d18O ~ d18O_IAR$age)
+
+# Detrended series
+series1_detrend <- residuals(model1)
+series2_detrend <- residuals(model2)
+
+## compute for diff time series
+print(tseries::adf.test(series1_detrend)) 
+acf(series1_detrend)
+
+print(tseries::adf.test(series2_detrend)) 
+acf(series2_detrend)
 
 ########################################################################
 
@@ -137,7 +164,7 @@ box()
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "IODP 1553", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
@@ -173,7 +200,7 @@ box()
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
 abline(model.2)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR)')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1.5, line = 0.5)
 r2 <- round(summary(model.2)$r.squared, 3)
@@ -238,7 +265,7 @@ plot(log(d18O_IAR$IAR)~d18O_IAR$d18O, xlim = rev(range(d18O_IAR$d18O)),
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 abline(model)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
 mtext(text = "IODP 1553", cex = 1)
 r2 <- round(summary(model)$r.squared, 4)
@@ -268,7 +295,7 @@ plot(log(scale.596$scale.iar) ~ scale.596$d18O, xlim = rev(range(scale.596$d18O)
 lines(newx.2, lower, lty = 2)
 lines(newx.2, upper, lty = 2)
 abline(model.2)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(\u2030)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('log(IAR) [ich cm'^'-2','Myr'^'-1', ']')), side = 2, line = 2.5, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1)
 r2 <- round(summary(model.2)$r.squared, 3)
