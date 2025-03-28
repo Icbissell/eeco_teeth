@@ -151,6 +151,7 @@ write.csv(teeth_total, "data/teeth_total.csv", row.names = FALSE) ##Elizabeth co
 
 ##### Calculate mean length through time ######
 
+#Means
 length_means <- aggregate(teeth_total$length, list(teeth_total$SampleID), FUN = mean)
 # Sort to have ascending sample number
 length_means <- length_means[sort(as.numeric(length_means$Group.1), index.return = TRUE)$ix,]
@@ -159,13 +160,36 @@ length_means <- length_means[sort(as.numeric(length_means$Group.1), index.return
 colnames(length_means)[1] = "SampleID"
 colnames(length_means)[2] = "length_mean"
 
+#Medians
+length_medians <- aggregate(teeth_total$length, list(teeth_total$SampleID), FUN = median)
+# Sort to have ascending sample number
+length_medians <- length_medians[sort(as.numeric(length_medians$Group.1), index.return = TRUE)$ix,]
+
+# rename the headers to be more informative
+colnames(length_medians)[1] = "SampleID"
+colnames(length_medians)[2] = "length_median"
+
 # Stdev
 length_sd <- aggregate(teeth_total$length, list(teeth_total$SampleID), FUN = sd)
 length_sd <- length_sd[sort(as.numeric(length_sd$Group.1), index.return = TRUE)$ix,]
 colnames(length_sd)[1] = "SampleID"
 colnames(length_sd)[2] = "length_sd"
 
-length_stats <- cbind(length_means, length_sd = length_sd$length_sd)
+# SE
+
+se <- function(x) sd(x) / sqrt(length(x))
+
+length_se <- aggregate(teeth_total$length, list(teeth_total$SampleID), FUN = se)
+length_se <- length_se[sort(as.numeric(length_se$Group.1), index.return = TRUE)$ix,]
+colnames(length_se)[1] = "SampleID"
+colnames(length_se)[2] = "length_se"
+
+
+
+length_stats <- cbind(length_means, 
+                      length_sd = length_sd$length_sd, 
+                      length_median = length_medians$length_median, 
+                      length_se = length_se$length_se)
 
 length_stats$shipboard_ages <- all_data[match(length_stats$SampleID, all_data$Serial..),18] # Pull the shipboard ages (column 18 of all_data) value for the morphs
 length_stats$nieder_ages <- all_data[match(length_stats$SampleID, all_data$Serial..),21] # Pull the shipboard ages (column 18 of all_data) value for the morphs
