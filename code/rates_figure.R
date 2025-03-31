@@ -95,7 +95,8 @@ ext.est <- subset(Pradrec.teeth.avg[[1]], Pradrec.teeth.avg[[1]]$Par.name == "Ph
 orig.est <- subset(Pradrec.teeth.avg[[1]], Pradrec.teeth.avg[[1]]$Par.name == "f")
 prob.est <- subset(Pradrec.teeth.avg[[1]], Pradrec.teeth.avg[[1]]$Par.name == "p")
 
-writeFile <- 'pdf'
+# writeFile <- 'pdf'
+writeFile <- 'png'
 # writeFile <- 'jpg'
 # writeFile <- 'off'
 
@@ -107,6 +108,10 @@ if(writeFile == 'pdf') {
 
 if(writeFile == 'jpg') {
   jpeg('plots/RatesFigure.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
+if(writeFile == 'png') {
+  png('plots/RatesFigure.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res =1000)
 }
 
 xlims = c(max(chas_dataset$nieder_ages), min(chas_dataset$nieder_ages))

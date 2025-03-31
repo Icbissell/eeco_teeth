@@ -14,8 +14,8 @@ library(mgcv) #for GAM
 
 # writeFile <- 'pdf'
 # writeFile <- 'jpg'
-writeFile <- 'off'
-# writeFile <- 'png'
+# writeFile <- 'off'
+writeFile <- 'png'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
@@ -37,7 +37,7 @@ if(writeFile == 'png') {
 yaxis.age <- rev(round(age.range)) # c(63, 41)
 axis.scale <- 1.5
 text.scale <- 1
-pt.scale <- 1.4
+pt.scale <- 2
 txt.line <- 3.1
 
 # Axis text
@@ -58,7 +58,7 @@ eo.col <- adjustcolor('lightskyblue', alpha.f = 0.3)
 
 ## Set up 3-panel plot
 par(mfrow = c(1, 3),
-    oma = c(8, 4, 4.5, 0.5),  #set outer margins for axis labels
+    oma = c(6, 4, 8, 0.5),  #set outer margins for axis labels
     mar = c(0, 0, 0, 0))  # set plot martins to be very squished together
 
 #plot temperature (but hide it)
@@ -87,9 +87,8 @@ par(mfg = c(1, 3))
 rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 
 par(new = T, mfrow = c(1, 3),
-    oma = c(8, 4, 4.5, 0.5),  #set outer margins for axis labels
+    oma = c(6, 4, 8, 0.5),  #set outer margins for axis labels
     mar = c(0, 0, 0, 0))  # set plot martins to be very squished together
-
 
 ## #plot oxygen/temperature
 par(mfg = c(1, 1))
@@ -99,10 +98,12 @@ plot(x = o_roll$d18O, y = o_roll$age, type = 'o', pch = 16, col = temp.col,
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 
 axis(1, cex.axis = axis.scale) # D18O values
-mtext (text = expression(paste(delta, ''^'18', 'O', "(\u2030)" )), side = 1, line = txt.line, cex = text.scale)
+mtext (text = expression(paste(delta, ''^'18', 'O', "(%)")), side = 1, line = txt.line, cex = text.scale)
 
 axis(2, at=seq(42,63, by=2), cex.axis = axis.scale) #age axis
 mtext(text = 'Age (Ma)', side = 2, line = 2.5, cex = text.scale)
+
+mtext("a", side = 3, line = 5.5, at = 0.8, cex = 1.4, font = 2)
 
 ### plot IAR
 plot(x = chas_dataset$nieder_IAR, y = chas_dataset$nieder_ages, type = 'o', pch = 16,
@@ -115,17 +116,19 @@ mtext (text = iar.axis.text, side = 1, line = txt.line, cex = text.scale)
 
 # add 596
 par(new = TRUE)
-plot(x = IAR.596$ich_accum, y = IAR.596$age, type = 'o', pch = 18, col=dsdp.596.col, ylim = yaxis.age, cex = pt.scale,
+plot(x = IAR.596$ich_accum, y = IAR.596$age, type = 'o', 
+     pch = 18, col=dsdp.596.col, ylim = yaxis.age, cex = pt.scale,
      xlim = c(0, max(IAR.596$ich_accum)),
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 axis(3, cex.axis = axis.scale)
-mtext (text = expression(paste('DSDP 596 IAR (ich >106 ', mu, 'm ','cm'^'-2','Myr'^'-1', ')')), 
+mtext (text = expression(paste('DSDP 596 IAR (ich >106 ', mu, 'm ','cm'^'-2','  ','Myr'^'-1', ')')), 
        side = 3, line = txt.line, cex = text.scale)
-legend("topright", legend = c("IODP 1553", "DSDP 596"), 
+legend("topright", legend = c(expression(bold("IODP 1553")), "DSDP 596"), 
        col = c(nieder.iar.col, dsdp.596.col), 
-       pch = 16, bty = "n", inset = c(0.05, 0.02), 
-       cex = 1.3)
+       pch = c(16, 18), bty = "n", 
+       inset = c(0.05, 0.02), cex = 1.4, pt.cex=2)
 
+mtext("b", side = 3, line = 5.5, at = 0, cex = 1.4, font = 2)
 
 ### plot mean length
 
@@ -156,6 +159,8 @@ points(length_stats$length_mean, length_stats$nieder_ages, pch = 16)
 polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=means.col, border = NA)
 axis(1, cex.axis = axis.scale) # length values
 mtext (text = expression(paste("Mean length (", mu, "m)")), side = 1, line = 2.7, cex = text.scale)
+
+mtext("c", side = 3, line = 5.5, at = 120, cex = 1.4, font = 2)
 
 # close file
 if(writeFile != 'off') {
