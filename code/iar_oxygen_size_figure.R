@@ -98,7 +98,7 @@ plot(x = o_roll$d18O, y = o_roll$age, type = 'o', pch = 16, col = temp.col,
      bty = 'n', axes = FALSE, xlab = '', ylab = '')
 
 axis(1, cex.axis = axis.scale) # D18O values
-mtext (text = expression(paste(delta, ''^'18', 'O', "(%)")), side = 1, line = txt.line, cex = text.scale)
+mtext (text = expression(paste(delta, ''^'18', 'O', "(‰)")), side = 1, line = txt.line, cex = text.scale)
 
 axis(2, at=seq(42,63, by=2), cex.axis = axis.scale) #age axis
 mtext(text = 'Age (Ma)', side = 2, line = 2.5, cex = text.scale)
