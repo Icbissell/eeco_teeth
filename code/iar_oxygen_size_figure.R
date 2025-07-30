@@ -41,7 +41,7 @@ pt.scale <- 2
 txt.line <- 3.1
 
 # Axis text
-iar.axis.text <- expression(paste('IODP 1553 IAR (ich 38-150 ', mu, 'm ', 'cm'^'-2','Myr'^'-1',')'))
+iar.axis.text <- expression(paste('IODP U1553 IAR (ich 38-150 ', mu, 'm ', 'cm'^'-2','Myr'^'-1',')'))
 
 # Colors
 rec.col <- 'gray90' # for the EECO rectangle
@@ -123,7 +123,7 @@ plot(x = IAR.596$ich_accum, y = IAR.596$age, type = 'o',
 axis(3, cex.axis = axis.scale)
 mtext (text = expression(paste('DSDP 596 IAR (ich >106 ', mu, 'm ','cm'^'-2','  ','Myr'^'-1', ')')), 
        side = 3, line = txt.line, cex = text.scale)
-legend("topright", legend = c(expression(bold("IODP 1553")), "DSDP 596"), 
+legend("topright", legend = c(expression(bold("IODP U1553")), "DSDP 596"), 
        col = c(nieder.iar.col, dsdp.596.col), 
        pch = c(16, 18), bty = "n", 
        inset = c(0.05, 0.02), cex = 1.4, pt.cex=2)
