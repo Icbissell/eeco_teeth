@@ -1,0 +1,215 @@
+---
+title: "ProcB-resub"
+output: html_document
+date: "2025-07-31"
+---
+
+```{r include = FALSE, results = 'hide', fig.keep = "none"}
+source('code/setup_age_models.R')
+
+##### Step 2: Process sample-specific tooth length datasets #####
+source('code/compute_length_updated.R')
+
+##### Step 3: Calculate correlation Statistics on IAR vs. d18O, etc.
+# Can run f_scatter.R from source, it will create the additional cross-plot figures
+source('code/scatter.R')
+
+##### Step 4: Capture-mark-recapture Evolutionary Rate Calculations #####
+# If you have MARK installed, you can run this file; Otherwise, load the .RData file to add the output objects.
+# source('code/cmr_calculations.R')
+load('data/Pradrec.teeth.nieder.RData')
+load('data/Pradrec.teeth.shipboard.RData')
+
+
+###########################################
+#                                         #
+#                 FIGURES                 #
+#                                         #
+###########################################
+
+##### age_model_Figures.R: makes 2 figures, compares age-depth and IAR (can be run as source) #####
+source('code/age_model_Figures.R')
+##### range_charts.R: Range Chart Figures  (can be run as source) #####
+source('code/range_charts.R')
+##### iar_oxygen_size_figure.R can be run as source #####
+source('code/iar_oxygen_size_figure.R')
+##### Foote_rates.R (can be run as source) #####
+source('code/Foote_rates.R')
+##### CMR Figures shouldn't be run as source at this time, but has the bones of the figures #####
+# source('code/CMR_Figures.R')
+```
+
+Adressing the comments left by reviewer 2 on the ProcB submission:
+
+```{r include = FALSE}
+#prepare the datasets:
+##### Calculate d18O around the IAR values #####
+match_d18O <- c()
+
+for(i in 1:length(chas_dataset$nieder_ages)) {
+  ind <- which(abs(o_roll$age-chas_dataset$nieder_ages[i])==min(abs(o_roll$age-chas_dataset$nieder_ages[i])))
+  print(ind)
+  if (ind == 1) {
+    match_d18O[i] <- o_roll$d18O[ind]
+  }
+
+  else{
+  match_d18O[i] <- mean(o_roll$d18O[(ind-2):(ind+2)])
+  }
+
+}
+
+d18O_IAR <- data.frame(age = chas_dataset$nieder_ages, d18O = match_d18O,
+                       IAR = chas_dataset$nieder_IAR)
+
+match_d18O_596 <- c()
+for(i in 1:length(IAR.596$age)) {
+  match_d18O_596[i] <- o_roll$d18O[which(abs(o_roll$age-IAR.596$age[i])==min(abs(o_roll$age-IAR.596$age[i])))]
+}
+
+d18O_IAR_596 <- data.frame(age = IAR.596$age, d18O = match_d18O_596, IAR = IAR.596$ich_accum)
+```
+
+Our time series look like this:
+
+```{r}
+plot(d18O_IAR$age, d18O_IAR$IAR)
+plot(d18O_IAR$age, d18O_IAR$d18O)
+```
+
+And the correlation:
+
+```{r}
+plot(d18O_IAR$IAR ~ d18O_IAR$d18O)
+summary(lm(d18O_IAR$IAR ~ d18O_IAR$d18O))
+```
+
+We can check for non-stationarity with the Augmented Dickey-Fuller test. For the IAR dataset:
+
+```{r}
+print(tseries::adf.test(d18O_IAR$IAR))
+```
+
+The P-value is too high to reject the null-hypothesis and there also seems to be a pattern in the autocorrelation factor:
+
+```{r}
+acf(d18O_IAR$IAR)
+```
+
+------------------------------------------------------------------------
+
+Currently we are detrending by computing the residuals for each variable and then correlating. This does improve autocor. and non-stationary, as well as strengthen the correlation:
+
+```{r}
+model.iar <- lm(d18O_IAR$IAR ~ d18O_IAR$age)
+model.d18 <- lm(d18O_IAR$d18O ~ d18O_IAR$age)
+
+# Detrended series
+model.iar <- residuals(model.iar)
+model.d18 <- residuals(model.d18)
+
+print(tseries::adf.test(model.iar))
+acf(model.iar)
+
+plot(model.iar ~ model.d18)
+summary(lm(model.iar ~ model.d18))
+```
+
+
+------------------------------------------------------------------------
+
+First differences doesn't appear to be so effective:
+
+```{r}
+## compute for diff time series
+print(tseries::adf.test(diff(d18O_IAR$IAR))) #p-value increases
+acf(diff(d18O_IAR$IAR)) #acf looks better
+
+```
+
+And when we compute the correlation on the diff-series:
+
+```{r}
+plot(diff(d18O_IAR$IAR) ~ diff(d18O_IAR$d18O))
+summary(lm(diff(d18O_IAR$IAR) ~ diff(d18O_IAR$d18O)))
+```
+
+2nd differences didn't improve anything much more.
+
+I think the main reason 1st and 2nd differences fail is because the time points we are based our time series on are unevenly spaced, and evenly spaced observations are an assumption of 1st differences. Because this is the inevitable outcome of using an age-model like we are, I'm not sure there is much we can do. I'll note this in the response to reviewers and probably make a note of it in the manuscript as well. 
+
+
+------------------------------------------------------------------------
+
+R2 also wanted us to run a GAM on the log-transformed length dataset. 
+
+
+Here is the GAM currently being used in the paper: 
+```{r}
+
+yaxis.age <- rev(round(age.range)) # c(63, 41)
+axis.scale <- 1.5
+text.scale <- 1
+pt.scale <- 2
+txt.line <- 3.1
+
+gam <- gam(length~s(nieder_ages, k = 10, bs = 'cs'), data=teeth_total)
+
+x_vals <- seq(min(teeth_total$nieder_ages), max(teeth_total$nieder_ages), length = 100)
+new_data <- data.frame(nieder_ages = x_vals)
+pred <- predict(gam_5, newdata = new_data, se.fit = TRUE)
+y_pred <- pred$fit
+se <- pred$se.fit
+
+ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% confidence level
+lower <- y_pred - ci
+upper <- y_pred + ci
+
+
+plot(x_vals, y_pred, type = "l", bty = 'n')
+points(length_stats$nieder_ages, length_stats$length_mean, pch = 16)
+polygon(c(x_vals, rev(x_vals)), c(lower, rev(upper)), col=means.col, border = NA)
+
+```
+
+
+I think the article linked by R2 made some really good points about log-transforming the tooth measurements, and I think we should for our figures. As can be seen below, this doesn't have any effect on our results (luckily). 
+
+```{r}
+
+axis.age <- rev(round(age.range)) # c(63, 41)
+axis.scale <- 1.5
+text.scale <- 1
+pt.scale <- 2
+txt.line <- 3.1
+
+teeth_log <- teeth_total
+teeth_log$log_length <- log(teeth_total$length)
+
+gam_log <- gam(log_length~s(nieder_ages, k = 10, bs = 'cs'), data = teeth_log)
+
+x_vals <- seq(min(teeth_total$nieder_ages),
+              max(teeth_total$nieder_ages), length = 100)
+new_data <- data.frame(nieder_ages = x_vals)
+pred <- predict(gam_log, newdata = new_data, se.fit = TRUE)
+y_pred <- pred$fit
+se <- pred$se.fit
+
+ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% confidence level
+lower <- y_pred - ci
+upper <- y_pred + ci
+
+
+length_means <- aggregate(log(teeth_total$length), list(teeth_total$SampleID), FUN = mean)
+# Sort to have ascending sample number
+length_means <- length_means[sort(as.numeric(length_means$Group.1), index.return = TRUE)$ix,]
+
+
+plot(x_vals, y_pred, type = "l", bty = 'n')
+points(length_stats$nieder_ages, length_means$x, pch = 16)
+polygon(c(x_vals, rev(x_vals)), c(lower, rev(upper)), col=means.col, border = NA)
+
+```
+
+Essentially, the error bars are tightened, but nothing else changes. 
+

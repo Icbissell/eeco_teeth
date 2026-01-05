@@ -4,7 +4,8 @@ library(mgcv)
 
 # writeFile <- 'pdf'
 # writeFile <- 'jpg'
-writeFile <- 'off'
+writeFile <- 'png'
+# writeFile <- 'off'
 
 fig.dims <- c(5, 11) #Set Figure-dimensions
 
@@ -14,6 +15,10 @@ if(writeFile == 'pdf') {
 
 if(writeFile == 'jpg') {
   jpeg('plots/scatter.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
+if(writeFile == 'png') {
+  png('plots/scatter.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res =1000)
 }
 
 
@@ -58,17 +63,17 @@ lines(newx, y_pred)
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 
-mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(‰)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('IAR residuals')), 
       side = 2, line = 2.1, cex = axis.scale)
-mtext(text = "IODP 1553", cex = 1.5, line = 0.5)
+mtext(text = "IODP U1553", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 4)
 
-text(0.4, 10000, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9300, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 8700, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
+text(0.6, 11600, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.6, 10600, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.6, 9600, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 mtext("a", side = 3, line = 1, at = 0.9, font = 2, cex = 1.4)
 
@@ -108,16 +113,16 @@ lines(newx, y_pred)
 # Plot the 95% confidence interval lines
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(‰)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('IAR residuals')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 3)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 22)
 
-text(0.3, 160, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.3, 150, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.3, 140, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+text(0.5, 185, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.5, 172, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.5, 159, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 mtext("b", side = 3, line = 1, at = 1, font = 2, cex = 1.4)
 
 
@@ -141,7 +146,7 @@ for (i in 1:length(scale.vec$Age)) {
 }
 
 
-#rescale 596 to match 1553
+#rescale 596 to match U1553
 scale.vec <- scale.vec[order(scale.vec$Age), ]
 d18O_IAR_596 <- d18O_IAR_596[order(d18O_IAR_596$age), ]
 scale.596 <- data.frame(Age = d18O_IAR_596$age, scale.iar = d18O_IAR_596$IAR, d18O = d18O_IAR_596$d18O)
@@ -154,7 +159,8 @@ for(i in 1:length(scale.596$Age)) {
 
 # writeFile <- 'pdf'
 # writeFile <- 'jpg'
-writeFile <- 'off'
+writeFile <- 'png'
+# writeFile <- 'off'
 
 fig.dims <- c(5, 11) #Set Figure-dimensions
 
@@ -166,6 +172,9 @@ if(writeFile == 'jpg') {
   jpeg('plots/scatter_scale.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
 }
 
+if(writeFile == 'png') {
+  png('plots/scatter_scale.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res =1000)
+}
 
 axis.scale <- 1
 
@@ -208,17 +217,17 @@ lines(newx, y_pred)
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
 
-mtext(text = expression(paste(delta, ''^'18', 'O', "(per mille)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(‰)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('IAR residuals')), 
       side = 2, line = 2.1, cex = axis.scale)
-mtext(text = "IODP 1553", cex = 1.5, line = 0.5)
+mtext(text = "IODP U1553", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 4)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 4)
 
-text(0.4, 10000, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.4, 9300, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.4, 8700, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
+text(0.6, 11600, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.6, 10600, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.6, 9600, bquote(paste('slope = ', .(slope.1))), cex = 0.8)
 
 mtext("a", side = 3, line = 1, at = 0.9, font = 2, cex = 1.4)
 
@@ -258,16 +267,16 @@ lines(newx, y_pred)
 # Plot the 95% confidence interval lines
 lines(newx, lower, lty = 2)
 lines(newx, upper, lty = 2)
-mtext(text = expression(paste(delta, ''^'18', 'O', "(%)")), side = 1, line = 2.5, cex = 1.0)
+mtext(text = expression(paste(delta, ''^'18', 'O', "(‰)")), side = 1, line = 2.5, cex = 1.0)
 mtext(text = expression(paste('IAR residuals')), side = 2, line = 2.1, cex = axis.scale)
 mtext(text = "DSDP 596", cex = 1.5, line = 0.5)
 r2 <- round(summary(model)$r.squared, 3)
 pval <- summary(model)$coefficients[, "Pr(>|t|)"]
 pval <- round(pval[2], 22)
 
-text(0.2, 20000, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
-text(0.2, 19000, bquote(paste('P = ', .(pval))), cex = 0.8)
-text(0.2, 18000, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
+text(0.48, 21500, bquote(paste('R'^'2',' = ', .(r2))), cex = 0.8)
+text(0.48, 20000, bquote(paste('P = ', .(pval))), cex = 0.8)
+text(0.48, 18500, bquote(paste('slope = ', .(slope.2))), cex = 0.8)
 mtext("b", side = 3, line = 1, at = 1, font = 2, cex = 1.4)
 
 

@@ -14,22 +14,22 @@ library(mgcv) #for GAM
 
 # writeFile <- 'pdf'
 # writeFile <- 'jpg'
-writeFile <- 'off'
-# writeFile <- 'png'
+# writeFile <- 'off'
+writeFile <- 'png'
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
 if(writeFile == 'pdf') {
-  pdf('plots/iar_oxy.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
+  pdf('supplement_plot/log_iar_oxy.pdf', height = fig.dims[1], width = fig.dims[2], useDingbats = FALSE)
   # cairo_pdf('plots/iar_oxy.pdf', height = fig.dims[1], width = fig.dims[2])
-  }
+}
 
 if(writeFile == 'jpg') {
-  jpeg('plots/iar_oxy.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+  jpeg('supplement_plot/log_iar_oxy.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
 }
 
 if(writeFile == 'png') {
-  png('plots/iar_oxy.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res =1000)
+  png('supplement_plot/log_iar_oxy.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res =1000)
 }
 
 ##### Graphical Parameters for the whole plot #####
@@ -132,12 +132,18 @@ mtext("b", side = 3, line = 5.5, at = 0, cex = 1.4, font = 2)
 
 ### plot mean length
 
-## Run the GAM - this is on neiderbockstruck et al ages
-gam_5 <- gam(length~s(nieder_ages, k = 10, bs = 'cs'), data=teeth_total)
+## Run the GAM 
 
-x_vals <- seq(min(teeth_total$nieder_ages), max(teeth_total$nieder_ages), length = 100)
+
+teeth_log <- teeth_total
+teeth_log$log_length <- log(teeth_total$length)
+
+gam_log <- gam(log_length~s(nieder_ages, k = 10, bs = 'cs'), data = teeth_log)
+
+x_vals <- seq(min(teeth_total$nieder_ages),
+              max(teeth_total$nieder_ages), length = 100)
 new_data <- data.frame(nieder_ages = x_vals)
-pred <- predict(gam_5, newdata = new_data, se.fit = TRUE)
+pred <- predict(gam_log, newdata = new_data, se.fit = TRUE)
 y_pred <- pred$fit
 se <- pred$se.fit
 
@@ -145,18 +151,23 @@ ci <- 1.96 * se  # Assuming a normal distribution, 1.96 corresponds to a 95% con
 lower <- y_pred - ci
 upper <- y_pred + ci
 
-xlims <- c(floor(min(lower, length_stats$length_mean)), ceiling(max(upper, length_stats$length_mean)))
+
+length_means <- aggregate(log(teeth_total$length), list(teeth_total$SampleID), FUN = mean)
+# Sort to have ascending sample number
+length_means <- length_means[sort(as.numeric(length_means$Group.1), index.return = TRUE)$ix,]
+length_means <- length_means$x
+
+xlims <- c(floor(min(lower, length_means)), ceiling(max(upper, length_means)))
 
 plot(y_pred, x_vals, type = "l", bty = 'n', axes = FALSE, xlab = '',
-     ylab = '', ylim = yaxis.age, pch = 16, xlim = xlims)
-     #xlim = c(min(floor(lower)), max(ceiling(upper))))
-    # xlim = c(floor(min(y_pred)), ceiling(max(y_pred))))# , xlim = age.range, pch = 16)
-points(length_stats$length_mean, length_stats$nieder_ages, pch = 16)
+     ylab = '', ylim = yaxis.age, pch = 16, xlim = c(4.5, 5.3))
+
+points(length_means, length_stats$nieder_ages, pch = 16)
 polygon(c(lower, rev(upper)), c(x_vals, rev(x_vals)), col=means.col, border = NA)
 axis(1, cex.axis = axis.scale) # length values
-mtext (text = expression(paste("Mean length (", mu, "m)")), side = 1, line = 2.7, cex = text.scale)
+mtext (text = expression(paste("Mean log(length)")), side = 1, line = 2.7, cex = text.scale)
 
-mtext("c", side = 3, line = 5.5, at = 120, cex = 1.4, font = 2)
+mtext("c", side = 3, line = 5.5, at = 4.6, cex = 1.4, font = 2)
 
 # close file
 if(writeFile != 'off') {
