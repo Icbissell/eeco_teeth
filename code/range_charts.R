@@ -16,6 +16,8 @@ library(ichthyoliths)
 writeFile <- 'pdf'
 # writeFile <- 'jpg'
 # writeFile <- 'off'
+writeFile <- 'png'
+
 
 fig.dims <- c(7, 11) #Set Figure-dimensions
 
@@ -25,6 +27,10 @@ if(writeFile == 'pdf') {
 
 if(writeFile == 'jpg') {
   jpeg('plots/RangeChart.jpg', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
+}
+
+if(writeFile == 'png') {
+  jpeg('plots/RangeChart.png', height = fig.dims[1], width = fig.dims[2], units = 'in', res = 300)
 }
 
 ## Parameters
@@ -39,12 +45,13 @@ par(mar = c(6, 5, 1, 2))
 #                 xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
 #                 print.xaxis = T, main = '', ylab = 'Age (Ma)')
 
+xax.size <- 0.55
 hide<-rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
                  col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
                  cex.points = 'by.count', largesize = 1.2,
-                 xaxis.labels = 'names', yaxis.ticks = T,
+                 xaxis.labels = 'alphanum', yaxis.ticks = T,
                  print.xaxis = T, main = '',ylab = '',  
-                 cex.yaxis = 0.8, cex.xaxis = 0.35)
+                 cex.yaxis = 0.8, cex.xaxis = xax.size)
 
 #get rect coordinates
 usr <- par("usr")
@@ -59,14 +66,26 @@ rect(xleft, ybottom, xright, ytop, col = rec.col, border = rec.col)
 
 #plot again on top of rectangle
 par(new = T)
-rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
+# rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
+#            col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
+#            cex.points = 'by.count', largesize = 1.2,
+#            xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
+#            print.xaxis = T, main = '', ylab = '', 
+#            cex.yaxis = 0.8, cex.xaxis = xax.size)
+
+morphnames <- rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.counts = TRUE,
            col.points = 'by.count', cols.vec = col.rangechart, count.breaks = c(0, 1, 3, 5, 7, 10), # 1, 2, 3, 4-5, 6+
            cex.points = 'by.count', largesize = 1.2,
-           xaxis.labels = 'names', yaxis.ticks = TRUE,
+           xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
            print.xaxis = T, main = '', ylab = '', 
-           cex.yaxis = 0.8, cex.xaxis = 0.35)
+           cex.yaxis = 0.8, cex.xaxis = xax.size)
+write.csv(morphnames, 'morphnames.csv')
+
+
 
 mtext("Age (Ma)", side = 2, line = 2)
+mtext("Morpotype index", side = 1, line = 2)
+
 
 legend('bottomright', legend = c('1', '2-3', '4-5', '6-10', '11+'),
        pch = c(16),
