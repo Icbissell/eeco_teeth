@@ -79,7 +79,7 @@ morphnames <- rangechart(morph.counts.nieder, reorder = 'fad.by.lad', normalize.
            xaxis.labels = 'alphanum', yaxis.ticks = TRUE,
            print.xaxis = T, main = '', ylab = '', 
            cex.yaxis = 0.8, cex.xaxis = xax.size)
-write.csv(morphnames, 'morphnames.csv')
+write.csv(morphnames, 'data/morphnames.csv')
 
 
 
